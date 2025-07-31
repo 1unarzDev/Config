@@ -1,0 +1,21 @@
+* {{
+    background: {background}99;
+    foreground: {foreground}B3;
+
+    color0:     {color0}B3;
+    color1:     {color1}B3;
+    color2:     {color2}B3;
+    color3:     {color3}B3;
+    color4:     {color4}B3;
+    color5:     {color5}B3;
+    color6:     {color6}B3;
+    color7:     {color7}B3;
+    color8:     {color8}B3;
+    color9:     {color9}B3;
+    color10:    {color10}B3;
+    color11:    {color11}B3;
+    color12:    {color12}B3;
+    color13:    {color13}B3;
+    color14:    {color14}B3;
+    color15:    {color15}B3;
+}}

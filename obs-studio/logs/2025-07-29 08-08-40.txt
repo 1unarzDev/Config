@@ -1,0 +1,139 @@
+08:08:40.603: Platform: Wayland
+08:08:40.603: CPU Name: 13th Gen Intel(R) Core(TM) i7-13620H
+08:08:40.603: CPU Speed: 955.346MHz
+08:08:40.603: Physical Cores: 10, Logical Cores: 16
+08:08:40.603: Physical Memory: 15690MB Total, 11460MB Free
+08:08:40.603: Kernel Version: Linux 6.15.8-arch1-1
+08:08:40.603: Distribution: "Arch Linux" Unknown
+08:08:40.603: Desktop Environment: Hyprland (Hyprland)
+08:08:40.603: Session Type: wayland
+08:08:40.606: Current Date/Time: 2025-07-29, 08:08:40 AM
+08:08:40.606: Browser Hardware Acceleration: true
+08:08:40.606: Qt Version: 6.9.1 (runtime), 6.9.1 (compiled)
+08:08:40.606: Portable mode: false
+08:08:40.642: OBS 31.1.1 (linux)
+08:08:40.642: ---------------------------------
+08:08:40.643: ---------------------------------
+08:08:40.643: audio settings reset:
+08:08:40.643: 	samples per sec: 48000
+08:08:40.643: 	speakers:        2
+08:08:40.643: 	max buffering:   960 milliseconds
+08:08:40.643: 	buffering type:  dynamically increasing
+08:08:40.644: ---------------------------------
+08:08:40.644: Initializing OpenGL...
+08:08:40.644: Using EGL/Wayland
+08:08:40.684: Initialized EGL 1.5
+08:08:40.695: Loading up OpenGL on adapter Intel Mesa Intel(R) Graphics (RPL-P)
+08:08:40.695: OpenGL loaded successfully, version 4.6 (Core Profile) Mesa 25.1.6-arch1.1, shading language 4.60
+08:08:40.817: ---------------------------------
+08:08:40.817: video settings reset:
+08:08:40.817: 	base resolution:   1920x1080
+08:08:40.817: 	output resolution: 1280x720
+08:08:40.817: 	downscale filter:  Bicubic
+08:08:40.817: 	fps:               30/1
+08:08:40.817: 	format:            NV12
+08:08:40.817: 	YUV mode:          Rec. 709/Partial
+08:08:40.817: NV12 texture support enabled
+08:08:40.817: P010 texture support not available
+08:08:40.823: Audio monitoring device:
+08:08:40.823: 	name: Default
+08:08:40.823: 	id: default
+08:08:40.824: ---------------------------------
+08:08:40.831: Failed to load 'en-US' text for module: 'decklink-captions.so'
+08:08:40.836: Failed to load 'en-US' text for module: 'decklink-output-ui.so'
+08:08:40.842: A DeckLink iterator could not be created.  The DeckLink drivers may not be installed
+08:08:40.842: Failed to initialize module 'decklink.so'
+08:08:40.954: [pipewire] Available capture sources:
+08:08:40.954: [pipewire]     - Monitor source
+08:08:40.954: [pipewire]     - Window source
+08:08:40.974: v4l2loopback not installed, virtual camera not registered
+08:08:41.032: LIBVA_DRIVER_NAME variable is set, this could prevent FFmpeg VAAPI from working correctly
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_h264_supported
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_h264_supported
+08:08:41.032: FFmpeg VAAPI H264 encoding not supported
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_av1_supported
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_av1_supported
+08:08:41.032: FFmpeg VAAPI AV1 encoding not supported
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_hevc_supported
+08:08:41.032: VAAPI: Failed to initialize display in vaapi_device_hevc_supported
+08:08:41.032: FFmpeg VAAPI HEVC encoding not supported
+08:08:43.440: [obs-nvenc] NVENC version: 13.0 (compiled) / 13.0 (driver), CUDA driver version: 12.90, AV1 supported: true
+08:08:43.519: os_dlopen(/usr/lib/obs-plugins/obs-websocket.so->/usr/lib/obs-plugins/obs-websocket.so): libqrcodegencpp.so.1: cannot open shared object file: No such file or directory
+08:08:43.519: 
+08:08:43.519: Module '/usr/lib/obs-plugins/obs-websocket.so' not loaded
+08:08:43.548: ---------------------------------
+08:08:43.548:   Loaded Modules:
+08:08:43.548:     text-freetype2.so
+08:08:43.548:     rtmp-services.so
+08:08:43.548:     obs-x264.so
+08:08:43.548:     obs-webrtc.so
+08:08:43.548:     obs-vst.so
+08:08:43.548:     obs-transitions.so
+08:08:43.548:     obs-qsv11.so
+08:08:43.548:     obs-outputs.so
+08:08:43.548:     obs-nvenc.so
+08:08:43.548:     obs-libfdk.so
+08:08:43.548:     obs-filters.so
+08:08:43.548:     obs-ffmpeg.so
+08:08:43.548:     linux-v4l2.so
+08:08:43.548:     linux-pulseaudio.so
+08:08:43.548:     linux-pipewire.so
+08:08:43.548:     linux-jack.so
+08:08:43.548:     linux-capture.so
+08:08:43.548:     linux-alsa.so
+08:08:43.548:     image-source.so
+08:08:43.548:     frontend-tools.so
+08:08:43.548:     decklink-output-ui.so
+08:08:43.548:     decklink-captions.so
+08:08:43.548: ---------------------------------
+08:08:43.548: ---------------------------------
+08:08:43.548: Available Encoders:
+08:08:43.548:   Video Encoders:
+08:08:43.548: 	- ffmpeg_svt_av1 (SVT-AV1)
+08:08:43.548: 	- ffmpeg_aom_av1 (AOM AV1)
+08:08:43.548: 	- obs_nvenc_h264_tex (NVIDIA NVENC H.264)
+08:08:43.548: 	- obs_nvenc_hevc_tex (NVIDIA NVENC HEVC)
+08:08:43.548: 	- obs_nvenc_av1_tex (NVIDIA NVENC AV1)
+08:08:43.548: 	- obs_x264 (x264)
+08:08:43.548:   Audio Encoders:
+08:08:43.548: 	- ffmpeg_aac (FFmpeg AAC)
+08:08:43.548: 	- ffmpeg_opus (FFmpeg Opus)
+08:08:43.548: 	- ffmpeg_pcm_s16le (FFmpeg PCM (16-bit))
+08:08:43.548: 	- ffmpeg_pcm_s24le (FFmpeg PCM (24-bit))
+08:08:43.548: 	- ffmpeg_pcm_f32le (FFmpeg PCM (32-bit float))
+08:08:43.548: 	- ffmpeg_alac (FFmpeg ALAC (24-bit))
+08:08:43.548: 	- ffmpeg_flac (FFmpeg FLAC (16-bit))
+08:08:43.548: 	- libfdk_aac (libfdk AAC)
+08:08:43.548: ==== Startup complete ===============================================
+08:08:43.555: No scene file found, creating default scene
+08:08:43.614: All scene data cleared
+08:08:43.614: ------------------------------------------------
+08:08:43.632: pulse-input: Server name: 'PulseAudio (on PipeWire 1.4.7) 15.0.0'
+08:08:43.632: pulse-input: Audio format: s32le, 48000 Hz, 2 channels
+08:08:43.632: pulse-input: Started recording from 'alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink.monitor' (default)
+08:08:43.633: pulse-input: Server name: 'PulseAudio (on PipeWire 1.4.7) 15.0.0'
+08:08:43.633: pulse-input: Audio format: s24-32le, 48000 Hz, 2 channels
+08:08:43.633: pulse-input: Sample format s24-32le not supported by OBS,using float32le instead for recording
+08:08:43.633: pulse-input: Started recording from 'alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source' (default)
+08:08:43.635: Switched to scene 'Scene'
+08:08:43.635: Created scene collection 'Untitled' (clean, Untitled.json)
+08:08:43.635: ------------------------------------------------
+08:08:44.270: adding 21 milliseconds of audio buffering, total audio buffering is now 21 milliseconds (source: Desktop Audio)
+08:08:44.270: 
+08:09:32.550: 
+08:09:32.550: ==== Auto-config wizard testing commencing ======
+
+08:09:34.657: ---------------------------------
+08:09:34.657: video settings reset:
+08:09:34.657: 	base resolution:   1920x1080
+08:09:34.657: 	output resolution: 1920x1080
+08:09:34.657: 	downscale filter:  Bicubic
+08:09:34.657: 	fps:               60/1
+08:09:34.657: 	format:            NV12
+08:09:34.657: 	YUV mode:          Rec. 709/Partial
+08:09:34.657: NV12 texture support enabled
+08:09:34.657: P010 texture support not available
+08:09:34.670: 
+08:09:34.670: ==== Auto-config wizard testing stopping ========
+
+08:09:45.794: virtual void QtWaylandClient::QWaylandTextInputv3::disableSurface(wl_surface*) Try to disable surface 0x564dfa0261a0 with focusing surface 0x564dfaa4a410
