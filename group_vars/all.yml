@@ -1,0 +1,39 @@
+---
+repo_url: "https://github.com/1unarzDev/Config.git"
+repo_name: "Config"
+
+packages:
+  - git
+  - nvim
+  - tmux
+  - curl
+  - hyprland
+  - waybar
+  - rofi
+  - kitty
+  - swww
+  - wlogout
+
+dotfiles:
+  - .zshrc
+  - .p10k.zsh
+  - .oh-my-zsh
+  - .config/hypr
+  - .config/waybar
+  - .config/kitty
+  - .config/spicetify
+  - .config/scripts
+  - .config/rofi
+  - .config/mako
+  - .config/nvim
+  - .config/xdg-desktop-portal
+  - .config/xdg-desktop-portal-termfilechooser
+  - .config/swww
+  - .config/systemd
+  - .config/wal
+  - .config/qt6ct
+  - .zen/Zen
+
+secrets:
+  - .gitconfig
+  - .config/gh

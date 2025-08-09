@@ -1,0 +1,148 @@
+:root {
+  --zen-colors-primary: var(--toolbar-bgcolor) !important;
+  --zen-primary-color: var(--lwt-accent-color) !important;
+  --zen-colors-secondary: var(--toolbar-bgcolor) !important;
+  --zen-colors-tertiary: var(--zen-main-browser-background) !important;
+  --zen-colors-border: var(--lwt-accent-color) !important;
+  --zen-themed-toolbar-bg: var(--toolbar-bgcolor) !important;
+  --zen-main-browser-background: var(--toolbar-bgcolor) !important;
+}
+
+:root:has(#theme-PywalZen[uc-pywalzen-darkness="default"]) {
+  --zen-colors-tertiary: var(--lwt-accent-color) !important;
+  --zen-main-browser-background: var(--lwt-accent-color) !important;
+  --zen-themed-toolbar-bg: var(--lwt-accent-color) !important;
+  --arrowpanel-background: var(--lwt-accent-color) !important;
+  #urlbar[breakout-extend="true"] > #urlbar-background {
+    background: var(--lwt-accent-color) !important;
+  }
+}
+
+:root:has(#theme-PywalZen[uc-pywalzen-darkness="dark"]) {
+  --zen-colors-tertiary: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 25%
+  ) !important;
+  --zen-main-browser-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 25%
+  ) !important;
+  --zen-themed-toolbar-bg: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 25%
+  ) !important;
+  --arrowpanel-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 25%
+  ) !important;
+  #urlbar[breakout-extend="true"] > #urlbar-background {
+    background: color-mix(
+      in srgb,
+      var(--lwt-accent-color),
+      black 25%
+    ) !important;
+  }
+}
+
+:root:has(#theme-PywalZen[uc-pywalzen-darkness="darker"]) {
+  --zen-colors-tertiary: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 50%
+  ) !important;
+  --zen-main-browser-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 50%
+  ) !important;
+  --zen-themed-toolbar-bg: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 50%
+  ) !important;
+  --arrowpanel-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 50%
+  ) !important;
+  #urlbar[breakout-extend="true"] > #urlbar-background {
+    background: color-mix(
+      in srgb,
+      var(--lwt-accent-color),
+      black 50%
+    ) !important;
+  }
+}
+
+:root:has(#theme-PywalZen[uc-pywalzen-darkness="yet-darker"]) {
+  --zen-colors-tertiary: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 75%
+  ) !important;
+  --zen-main-browser-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 75%
+  ) !important;
+  --zen-themed-toolbar-bg: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 75%
+  ) !important;
+  --arrowpanel-background: color-mix(
+    in srgb,
+    var(--lwt-accent-color),
+    black 75%
+  ) !important;
+  #urlbar[breakout-extend="true"] > #urlbar-background {
+    background: color-mix(
+      in srgb,
+      var(--lwt-accent-color),
+      black 75%
+    ) !important;
+  }
+}
+
+:root:has(#theme-PywalZen[uc-pywalzen-darkness="pitch-black"]) {
+  --zen-colors-tertiary: black !important;
+  --zen-main-browser-background: black !important;
+  --zen-themed-toolbar-bg: black !important;
+  --arrowpanel-background: black !important;
+  #urlbar[breakout-extend="true"] > #urlbar-background {
+    background: black !important;
+  }
+}
+
+#urlbar:not([focused="true"]):not([breakout-extend="true"])
+  > #urlbar-background {
+  background: color-mix(
+    in srgb,
+    light-dark(#fff, var(--zen-colors-secondary)) 35%,
+    transparent 65%
+  ) !important;
+}
+
+#commonDialogWindow {
+  background-color: black !important;
+}
+
+#zen-workspaces-button {
+  background-color: var(--arrowpanel-background) !important;
+}
+
+#zenEditBookmarkPanelFaviconContainer {
+  background: var(--lwt-sidebar-background-color) !important;
+}
+#zen-media-controls-toolbar {
+  & #zen-media-progress-bar {
+    &::-moz-range-track {
+      background: var(--toolbar-bgcolor) !important;
+    }
+  }
+}
+

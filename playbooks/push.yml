@@ -1,0 +1,107 @@
+---
+- name: Detect changes and commit to repo
+  hosts: localhost
+  connection: local
+
+  vars:
+    home_dir: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    - name: Create files directories
+      file:
+        path: "../{{ item }}"
+        state: directory
+      loop:
+        - files
+        - files/cursors
+        - files/fonts
+
+    - name: Create dotfile directories
+      file:
+        path: "../files/{{ item | dirname }}"
+        state: directory
+      with_items: "{{ dotfiles }}"
+      when: item | dirname != ""
+
+    - name: Sync live dotfiles
+      synchronize:
+        src: "{{ home_dir }}/{{ item }}"
+        dest: "../files/{{ item }}"
+      with_items: "{{ dotfiles }}"
+
+    - name: Create secrets directories
+      file:
+        path: "../files/{{ item | dirname }}"
+        state: directory
+      with_items: "{{ secrets }}"
+      when: item | dirname != ""
+
+    - name: Sync live secrets
+      synchronize:
+        src: "{{ home_dir }}/{{ item }}"
+        dest: "../files/{{ item }}"
+      with_items: "{{ secrets }}"
+
+    - name: Check what each secret item is
+      stat:
+        path: "../files/{{ item }}"
+      with_items: "{{ secrets }}"
+      register: secret_stats
+    
+    - name: Separate files and directories based on actual filesystem
+      set_fact:
+        secret_files: "{{ secret_stats.results | selectattr('stat.isreg', 'equalto', true) | map(attribute='item') | list }}"
+        secret_dirs: "{{ secret_stats.results | selectattr('stat.isdir', 'equalto', true) | map(attribute='item') | list }}"
+
+    - name: Find files to encrypt
+      find:
+        paths: "../files/{{ item }}"
+        file_type: file
+        recurse: yes
+        hidden: yes
+        follow: no
+      with_items: "{{ secret_dirs }}"
+      register: files_to_encrypt_raw
+
+    - name: Flatten file results
+      set_fact:
+        files_to_encrypt:
+          files: "{{ files_to_encrypt_raw.results | map(attribute='files') | flatten }}"
+
+    - name: Encrypt secret folders
+      shell: |
+        if ! head -1 "{{ item.path }}" | grep -q "ANSIBLE_VAULT"; then
+          ansible-vault encrypt "{{ item.path }}" --vault-password-file ../.vault
+        fi
+      loop: "{{ files_to_encrypt.files }}"
+      
+    - name: Encrypt secrets
+      shell: |
+        if ! head -1 ../files/{{ item }} | grep -q "ANSIBLE_VAULT"; then
+          ansible-vault encrypt ../files/{{ item }} --vault-password-file ../.vault
+        fi
+      with_items: "{{ secret_files }}"
+      ignore_errors: yes
+      
+    - name: Sync live cursors
+      synchronize:
+        src: "/usr/share/icons/"
+        dest: "../files/cursors/"
+      become: yes
+    
+    - name: Sync live fonts
+      synchronize:
+        src: "{{ home_dir }}/.local/share/fonts/"
+        dest: "../files/fonts/"
+    
+    - name: Check for dotfile changes
+      shell: git status --porcelain
+      register: git_status
+      changed_when: false
+      
+    - name: Commit and push changes
+      shell: |
+        git add .
+        git commit -m "Auto-update: $(date)"
+        git push origin main
+      when: git_status.stdout != ""

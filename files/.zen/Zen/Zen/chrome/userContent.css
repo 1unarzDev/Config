@@ -1,0 +1,74 @@
+@-moz-document url("about:newtab") {
+  /* ==================================
+      OCULTAR ELEMENTOS PRINCIPALES
+     ================================== */
+  
+  /* Oculta el contenedor del buscador y el logo */
+  .logo, .wordmark {
+    display: none !important;
+  }
+  
+  .search-inner-wrapper > * {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  
+  .search-inner-wrapper > * > * {
+    text-align: center !important;
+  }
+
+  /* ==================================
+      FONDO PERSONALIZADO
+     ================================== */
+  
+  /* Aplica un fondo oscuro y desenfocado */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.0); 
+    backdrop-filter: blur(0px);
+    z-index: -1;
+  }
+
+  /* ==================================
+      ESTILO DE ACCESOS DIRECTOS
+     ================================== */
+
+  /* Elimina el fondo gris y el borde de cada acceso directo */
+  .top-site-outer {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* Añade una transición suave para el efecto hover */
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+	
+	.shortcuts-refresh .top-site-outer .tile {
+		background-color: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(16px) !important;
+	}
+	
+	.shortcuts-refresh .top-site-outer:hover .tile {
+		background-color: rgba(0, 0, 0, 0.5) !important;
+	}
+
+  /* Oculta el texto debajo de los iconos */
+  .top-site-outer .title {
+    display: none !important;
+  }
+
+  /* (Opcional) Agranda ligeramente el icono al pasar el mouse para feedback visual */
+  .top-site-outer:hover {
+    transform: scale(1.05);
+  }
+  
+  .shortcuts-refresh .top-site-outer .icon-pin-small {
+    display: none !important;
+  }
+}

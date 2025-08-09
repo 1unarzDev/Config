@@ -1,0 +1,73 @@
+---
+- name: Install packages, dotfiles, and secrets
+  hosts: localhost
+  connection: local
+  
+  vars:
+    home_dir: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    - name: Check for uncommitted local changes
+      shell: git status --porcelain
+      register: local_changes
+      changed_when: false
+      
+    - name: Fail if local changes exist
+      fail:
+        msg: "Uncommitted changes found. Run 'make push' or backup your files first."
+      when: local_changes.stdout != ""
+      
+    - name: Pull latest changes
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ home_dir }}/{{ repo_name }}"
+        version: main
+        
+    - name: Install AUR helper (yay)
+      shell: |
+        git clone https://aur.archlinux.org/yay.git /tmp/yay
+        cd /tmp/yay && makepkg -si --noconfirm
+        rm -rf /tmp/yay
+      become: no
+      args:
+        creates: /usr/bin/yay
+    
+    - name: Install all packages with yay
+      shell: yay -S --noconfirm {{ item }}
+      with_items: "{{ packages }}"
+      become: no
+      
+    - name: Copy dotfiles
+      synchronize:
+        src: "files/{{ item }}"
+        dest: "{{ home_dir }}/{{ item }}"
+      with_items: "{{ dotfiles }}"
+      
+    - name: Copy secrets
+      copy:
+        src: "files/{{ item }}"
+        dest: "{{ home_dir }}/{{ item }}"
+      with_items: "{{ secrets }}"
+      when: ansible_vault is defined
+      
+    - name: Copy all cursors
+      synchronize:
+        src: "files/cursors/"
+        dest: "/usr/share/icons/"
+      become: yes
+      
+    - name: Reload icon cache
+      shell: gtk-update-icon-cache
+      become: yes
+    
+    - name: Copy all fonts
+      synchronize:
+        src: "files/fonts/"
+        dest: "{{ home_dir }}/.local/share/fonts/"
+        
+    - name: Reload font cache
+      shell: fc-cache -f
+      become: yes
+      
+    - name: Reload hyprland.conf
+      shell: hyprctl reload
