@@ -4,15 +4,64 @@ repo_name: "Config"
 
 packages:
   - git
-  - nvim
+  - neovim
   - tmux
   - curl
   - hyprland
   - waybar
-  - rofi
+  - rofi-wayland
+  - slurp
+  - github-cli
+  - brightnessctl
+  - bluez-utils
   - kitty
   - swww
   - wlogout
+  - auto-cpufreq
+  - btop
+  - cava
+  - cliphist
+  - cmatrix
+  - docker
+  - grim
+  - hypridle
+  - hyprpicker
+  - hyprlock
+  - mako
+  - mpris-scrobbler
+  - networkmanager
+  - nvm
+  - pipewire
+  - obs-studio
+  - pipes.sh
+  - poppler
+  - qt6ct
+  - qt5ct
+  - yazi
+  - ffmpeg
+  - 7zip
+  - jq
+  - fd 
+  - ripgrep 
+  - fzf 
+  - zoxide 
+  - resvg 
+  - imagemagick
+  - python-pywal16
+  - python-pywalfox
+  - swayosd-git
+  - swww
+  - noto-fonts-emoji
+  - tmux
+  - wireplumber
+  - waybar
+  - wget
+  - visual-studio-code-bin
+  - zen-browser
+  - xdg-desktop-portal-hyprland
+  - xdg-desktop-portal-termfilechooser-boydaihungst-git
+  - spotify
+  - spicetify-cli
 
 dotfiles:
   - .zshrc
@@ -37,3 +86,11 @@ dotfiles:
 secrets:
   - .gitconfig
   - .config/gh
+  
+system_services:
+  - systemctl enable NetworkManager
+  - sddm
+  - bluetooth
+  - auto-cpufreq
+  - docker
+  - systemd-timesyncd
