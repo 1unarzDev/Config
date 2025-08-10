@@ -1,6 +1,9 @@
 ---
 repo_url: "https://github.com/1unarzDev/Config.git"
 repo_name: "Config"
+auto_resolve_conflicts: true
+backup_existing: true
+deploy_secrets: true
 
 packages:
   - git

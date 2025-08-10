@@ -5,50 +5,212 @@
   
   vars:
     home_dir: "{{ lookup('env', 'HOME') }}"
-
+    repo_dir: "{{ home_dir }}/{{ repo_name }}"
+    
+  handlers:
+    - name: reload systemd user
+      systemd:
+        daemon_reload: yes
+        scope: user
+      become: no
+    
+    - name: reload systemd system
+      systemd:
+        daemon_reload: yes
+      become: yes
+      
   tasks:
+    - name: Ensure repo directory exists
+      file:
+        path: "{{ repo_dir }}"
+        state: directory
+        
+    - name: Initialize git repository if needed
+      shell: git init
+      args:
+        chdir: "{{ repo_dir }}"
+        creates: "{{ repo_dir }}/.git"
+        
+    - name: Add remote origin if needed
+      shell: |
+        if ! git remote get-url origin 2>/dev/null; then
+          git remote add origin "{{ repo_url }}"
+        fi
+      args:
+        chdir: "{{ repo_dir }}"
+      changed_when: false
+      ignore_errors: yes
+      
+    - name: Fetch latest changes
+      shell: git fetch origin
+      args:
+        chdir: "{{ repo_dir }}"
+      changed_when: false
+      
     - name: Check for uncommitted local changes
       shell: git status --porcelain
+      args:
+        chdir: "{{ repo_dir }}"
       register: local_changes
       changed_when: false
       
-    - name: Fail if local changes exist
-      fail:
-        msg: "Uncommitted changes found. Run 'make push' or backup your files first."
-      when: local_changes.stdout != ""
-      
-    - name: Pull latest changes
-      git:
-        repo: "{{ repo_url }}"
-        dest: "{{ home_dir }}/{{ repo_name }}"
-        version: main
-        
-    - name: Install AUR helper (yay)
-      shell: |
-        git clone https://aur.archlinux.org/yay.git /tmp/yay
-        cd /tmp/yay && makepkg -si --noconfirm
-        rm -rf /tmp/yay
-      become: no
+    - name: Stash local changes if they exist
+      shell: git stash push -m "Ansible auto-stash $(date)"
       args:
-        creates: /usr/bin/yay
-    
-    - name: Install all packages with yay
-      shell: yay -S --noconfirm {{ item }}
-      with_items: "{{ packages }}"
+        chdir: "{{ repo_dir }}"
+      when: local_changes.stdout != ""
+      register: stash_result
+      
+    - name: Check if we're behind remote
+      shell: git rev-list HEAD..origin/main --count
+      args:
+        chdir: "{{ repo_dir }}"
+      register: behind_count
+      changed_when: false
+      failed_when: false
+      
+    - name: Rebase with remote changes
+      shell: git rebase origin/main
+      args:
+        chdir: "{{ repo_dir }}"
+      when: behind_count.stdout != "0"
+      register: rebase_result
+      failed_when: false
+      
+    - name: Handle rebase conflicts
+      block:
+        - name: Show conflict files
+          shell: git diff --name-only --diff-filter=U
+          args:
+            chdir: "{{ repo_dir }}"
+          register: conflict_files
+          
+        - name: Display conflict information
+          debug:
+            msg: |
+              Rebase conflicts detected in files: {{ conflict_files.stdout_lines }}
+              You can resolve these manually by running:
+              cd {{ repo_dir }}
+              # Edit conflicted files
+              git add .
+              git rebase --continue
+              # Or abort with: git rebase --abort
+              
+        - name: Abort rebase and continue with current state
+          shell: git rebase --abort
+          args:
+            chdir: "{{ repo_dir }}"
+          when: auto_resolve_conflicts | default(true)
+          
+        - name: Warn about conflicts
+          debug:
+            msg: "Continuing with pre-rebase state due to conflicts. Consider resolving manually."
+            
+      when: rebase_result.rc != 0
+      
+    - name: Pop stashed changes if we stashed them
+      shell: git stash pop
+      args:
+        chdir: "{{ repo_dir }}"
+      when: stash_result is defined and stash_result.changed
+      failed_when: false
+      register: stash_pop_result
+      
+    - name: Handle stash pop conflicts
+      debug:
+        msg: |
+          Stash pop resulted in conflicts. Your changes are still in the stash.
+          Run 'git stash list' to see them and 'git stash drop' to remove if not needed.
+      when: stash_pop_result is defined and stash_pop_result.rc != 0
+
+    - name: Check if yay is installed
+      command: which yay
+      register: yay_check
+      changed_when: false
+      failed_when: false
+      
+    - name: Install AUR helper (yay)
+      block:
+        - name: Clone yay repository
+          git:
+            repo: https://aur.archlinux.org/yay.git
+            dest: /tmp/yay
+            version: master
+            force: yes
+            
+        - name: Build and install yay
+          shell: |
+            cd /tmp/yay
+            makepkg -si --noconfirm --needed
+          become: no
+          
+        - name: Clean up yay build directory
+          file:
+            path: /tmp/yay
+            state: absent
+            
+      when: yay_check.rc != 0
+      
+    - name: Update package database
+      shell: yay -Sy
       become: no
+      changed_when: false
       
-    - name: Copy dotfiles
+    - name: Install packages with yay (batch mode)
+      shell: |
+        yay -S --noconfirm --needed {{ packages | join(' ') }}
+      become: no
+      register: package_install
+      changed_when: "'there is nothing to do' not in package_install.stdout"
+      failed_when: package_install.rc != 0 and 'nothing to do' not in package_install.stdout
+
+    - name: Backup existing dotfiles
+      shell: |
+        if [ -e "{{ home_dir }}/{{ item }}" ]; then
+          mkdir -p "{{ home_dir }}/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
+          cp -r "{{ home_dir }}/{{ item }}" "{{ home_dir }}/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)/"
+        fi
+      loop: "{{ dotfiles }}"
+      when: backup_existing | default(true)
+      
+    - name: Sync dotfiles with proper permissions
       synchronize:
-        src: "files/{{ item }}"
-        dest: "{{ home_dir }}/{{ item }}"
-      with_items: "{{ dotfiles }}"
+        src: "{{ repo_dir }}/files/{{ item }}"
+        dest: "{{ home_dir }}/{{ item | dirname }}/"
+        delete: yes
+        recursive: yes
+        perms: yes
+        times: yes
+        checksum: yes
+      loop: "{{ dotfiles }}"
+      register: dotfiles_sync
       
+    - name: Set correct ownership for dotfiles
+      file:
+        path: "{{ home_dir }}/{{ item }}"
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_gid }}"
+        recurse: yes
+      loop: "{{ dotfiles }}"
+      become: no
+
     - name: Enable and start system services
       systemd:
         name: "{{ item }}"
         enabled: yes
         state: started
-      with_items: "{{ system_services }}"
+        daemon_reload: yes
+      loop: "{{ system_services }}"
+      become: yes
+      register: system_services_result
+      failed_when: false
+      notify: reload systemd system
+      
+    - name: Report system service failures
+      debug:
+        msg: "Failed to start system service: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
+      loop: "{{ system_services_result.results }}"
+      when: item.failed | default(false)
 
     - name: Enable and start user services
       systemd:
@@ -56,33 +218,82 @@
         enabled: yes
         state: started
         scope: user
+        daemon_reload: yes
       loop: "{{ user_services }}"
+      become: no
+      register: user_services_result
+      failed_when: false
+      notify: reload systemd user
       
-    - name: Copy secrets
+    - name: Report user service failures
+      debug:
+        msg: "Failed to start user service: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
+      loop: "{{ user_services_result.results }}"
+      when: item.failed | default(false)
+
+    - name: Deploy secrets (if vault is available)
       copy:
-        src: "files/{{ item }}"
+        src: "{{ repo_dir }}/files/{{ item }}"
         dest: "{{ home_dir }}/{{ item }}"
-      with_items: "{{ secrets }}"
-      when: ansible_vault is defined
-      
-    - name: Copy all cursors
+        backup: yes
+        mode: '0600'
+      loop: "{{ secrets }}"
+      when: deploy_secrets | default(true)
+      no_log: true
+
+    - name: Sync cursors to system icons
       synchronize:
-        src: "files/cursors/"
+        src: "{{ repo_dir }}/files/cursors/"
         dest: "/usr/share/icons/"
+        delete: no
+        recursive: yes
       become: yes
+      register: cursors_sync
       
-    - name: Reload icon cache
-      shell: gtk-update-icon-cache
+    - name: Update icon cache
+      shell: gtk-update-icon-cache /usr/share/icons/
       become: yes
-    
-    - name: Copy all fonts
+      when: cursors_sync.changed
+      failed_when: false
+      
+    - name: Sync fonts to user directory
       synchronize:
-        src: "files/fonts/"
+        src: "{{ repo_dir }}/files/fonts/"
         dest: "{{ home_dir }}/.local/share/fonts/"
-        
-    - name: Reload font cache
-      shell: fc-cache -f
-      become: yes
+        delete: no
+        recursive: yes
+      register: fonts_sync
       
-    - name: Reload hyprland.conf
+    - name: Update font cache
+      shell: fc-cache -fv "{{ home_dir }}/.local/share/fonts/"
+      when: fonts_sync.changed
+      
+    - name: Check if Hyprland is running
+      shell: pgrep -x Hyprland
+      register: hyprland_running
+      changed_when: false
+      failed_when: false
+      
+    - name: Reload Hyprland configuration
       shell: hyprctl reload
+      when: hyprland_running.rc == 0
+      failed_when: false
+        
+    - name: Set executable permissions for scripts
+      file:
+        path: "{{ home_dir }}/.config/scripts"
+        mode: '0755'
+        recurse: yes
+        state: directory
+      when: "'.config/scripts/' in dotfiles"
+      
+    - name: Summary report
+      debug:
+        msg: |
+          Deployment Summary:
+          - Repository: {{ repo_url }}
+          - Dotfiles synced: {{ dotfiles | length }}
+          - Packages installed: {{ packages | length }}
+          - System services: {{ system_services | length }}
+          - User services: {{ user_services | length }}
+          - Hyprland reload: {{ 'Success' if hyprland_running.rc == 0 else 'Skipped (not running)' }}

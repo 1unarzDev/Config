@@ -7,6 +7,10 @@
     home_dir: "{{ lookup('env', 'HOME') }}"
 
   tasks:
+    - name: Initialize sync operation
+      debug:
+        msg: "🔄 Starting dotfiles sync operation from {{ home_dir }}"
+
     - name: Create files directories
       file:
         path: "../{{ item }}"
@@ -16,6 +20,10 @@
         - files/cursors
         - files/fonts
 
+    - name: Report base directories created
+      debug:
+        msg: "✅ Created base directories: files, cursors, fonts"
+
     - name: Create dotfile directories
       file:
         path: "../files/{{ item | dirname }}"
@@ -23,11 +31,20 @@
       with_items: "{{ dotfiles }}"
       when: item | dirname != ""
 
+    - name: Report dotfile directories created
+      debug:
+        msg: "📁 Created dotfile directory structure"
+
     - name: Sync live dotfiles
       synchronize:
         src: "{{ home_dir }}/{{ item }}"
         dest: "../files/{{ item }}"
       with_items: "{{ dotfiles }}"
+      register: dotfiles_sync_result
+
+    - name: Report dotfiles sync
+      debug:
+        msg: "✅ Synced {{ dotfiles | length }} dotfiles from live system"
 
     - name: Create secrets directories
       file:
@@ -41,6 +58,11 @@
         src: "{{ home_dir }}/{{ item }}"
         dest: "../files/{{ item }}"
       with_items: "{{ secrets }}"
+      register: secrets_sync_result
+
+    - name: Report secrets sync
+      debug:
+        msg: "🔐 Synced {{ secrets | length }} secrets from live system"
 
     - name: Check what each secret item is
       stat:
@@ -52,6 +74,10 @@
       set_fact:
         secret_files: "{{ secret_stats.results | selectattr('stat.isreg', 'equalto', true) | map(attribute='item') | list }}"
         secret_dirs: "{{ secret_stats.results | selectattr('stat.isdir', 'equalto', true) | map(attribute='item') | list }}"
+
+    - name: Report secret categorization
+      debug:
+        msg: "📊 Categorized secrets: {{ secret_files | length }} files, {{ secret_dirs | length }} directories"
 
     - name: Find files to encrypt
       find:
@@ -68,12 +94,17 @@
         files_to_encrypt:
           files: "{{ files_to_encrypt_raw.results | map(attribute='files') | flatten }}"
 
+    - name: Report files found for encryption
+      debug:
+        msg: "🔍 Found {{ files_to_encrypt.files | length }} files in secret directories to encrypt"
+
     - name: Encrypt secret folders
       shell: |
         if ! head -1 "{{ item.path }}" | grep -q "ANSIBLE_VAULT"; then
           ansible-vault encrypt "{{ item.path }}" --vault-password-file ../.vault
         fi
       loop: "{{ files_to_encrypt.files }}"
+      register: folder_encrypt_result
       
     - name: Encrypt secrets
       shell: |
@@ -82,22 +113,41 @@
         fi
       with_items: "{{ secret_files }}"
       ignore_errors: yes
+      register: file_encrypt_result
+
+    - name: Report encryption completed
+      debug:
+        msg: "🔒 Completed encryption process for secret files and directories"
       
     - name: Sync live cursors
       synchronize:
         src: "/usr/share/icons/"
         dest: "../files/cursors/"
       become: yes
+      register: cursors_sync_result
+
+    - name: Report cursors sync
+      debug:
+        msg: "🖱️  Synced system cursors from /usr/share/icons/"
     
     - name: Sync live fonts
       synchronize:
         src: "{{ home_dir }}/.local/share/fonts/"
         dest: "../files/fonts/"
+      register: fonts_sync_result
+
+    - name: Report fonts sync
+      debug:
+        msg: "🔤 Synced user fonts from ~/.local/share/fonts/"
     
     - name: Check for dotfile changes
       shell: git status --porcelain
       register: git_status
       changed_when: false
+
+    - name: Report git status
+      debug:
+        msg: "{{ 'ℹ️  No changes detected in repository' if git_status.stdout == '' else '📊 Changes detected: ' + (git_status.stdout_lines | length | string) + ' modified files' }}"
       
     - name: Commit and push changes
       shell: |
@@ -105,3 +155,36 @@
         git commit -m "Auto-update: $(date)"
         git push origin main
       when: git_status.stdout != ""
+      register: git_operations
+
+    - name: Report git operations
+      debug:
+        msg: "✅ Successfully committed and pushed changes to remote repository"
+      when: git_status.stdout != "" and git_operations is defined
+
+    - name: Generate final sync summary
+      debug:
+        msg: |
+          
+          🎉 DOTFILES SYNC COMPLETED 🎉
+          ═══════════════════════════════════
+          
+          📊 Sync Statistics:
+          ├─ Dotfiles:     {{ dotfiles | length }} synced
+          ├─ Secrets:      {{ secrets | length }} synced ({{ secret_files | length }} files, {{ secret_dirs | length }} directories)
+          ├─ Cursors:      ✅ Synced from system
+          └─ Fonts:        ✅ Synced from user directory
+          
+          🔒 Encryption:
+          ├─ Directory files: {{ files_to_encrypt.files | length }} processed
+          └─ Secret files:    {{ secret_files | length }} processed
+          
+          🔄 Repository Status:
+          {{ '├─ Changes:     ' + (git_status.stdout_lines | length | string) + ' files modified' if git_status.stdout != '' else '├─ Changes:     No changes detected' }}
+          {{ '└─ Git Status:  Committed and pushed' if git_status.stdout != '' else '└─ Git Status:  Up to date' }}
+          
+          🏠 Directories:
+          ├─ Home:         {{ home_dir }}
+          └─ Repository:   ../files/
+          
+          {{ '🎯 All changes have been pushed to the remote repository!' if git_status.stdout != '' else '💡 Repository is up to date - no sync needed!' }}
