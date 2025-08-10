@@ -88,9 +88,15 @@ secrets:
   - .config/gh/
   
 system_services:
-  - systemctl enable NetworkManager
+  - NetworkManager
   - sddm
   - bluetooth
   - auto-cpufreq
   - docker
   - systemd-timesyncd
+  
+user_services:
+  - mpris-proxy
+  - wireplumber
+  - xdg-desktop-portal
+  - xdg-desktop-portal-termfilechooser

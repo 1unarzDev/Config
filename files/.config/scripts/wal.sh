@@ -126,3 +126,4 @@ mv "$tmpfile" "$SPICETIFY_CONFIG"
 
 # Save current index
 echo "$next" > "$STATE_FILE"
+
