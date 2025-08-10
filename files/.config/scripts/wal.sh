@@ -54,12 +54,28 @@ sed -i -e "s/background-color=#[0-9a-fA-F]\{6,8\}/background-color=${color0}dd/"
 makoctl reload
 
 # Swayosd
-sed "s/BACKGROUND_COLOR/$background/g; \
-     s/BORDER_COLOR/$foreground/g; \
-     s/FOREGROUND_COLOR/$foreground/g; \
-     s/PROGRESS_BG_COLOR/$background/g; \
-     s/PROGRESS_COLOR/$foreground/g; \
-     s/ICON_COLOR/$foreground/g" \
+hex_to_rgba() {
+    local hex="$1"
+    local alpha="${2:-1.0}"
+    
+    hex="${hex#\#}"
+    
+    local r=$((0x${hex:0:2}))
+    local g=$((0x${hex:2:2}))
+    local b=$((0x${hex:4:2}))
+    
+    echo "rgba($r, $g, $b, $alpha)"
+}
+
+foreground_rgb=$(hex_to_rgba "$foreground" '0.9')
+background_rgb=$(hex_to_rgba "$background" '0.5')
+
+sed "s/BACKGROUND_COLOR/$background_rgb/g; \
+     s/BORDER_COLOR/$foreground_rgb/g; \
+     s/FOREGROUND_COLOR/$foreground_rgb/g; \
+     s/PROGRESS_BG_COLOR/$background_rgb/g; \
+     s/PROGRESS_COLOR/$foreground_rgb/g; \
+     s/ICON_COLOR/$foreground_rgb/g" \
      $SWAYOSD_DIR/style.css.template > $SWAYOSD_DIR/style.css
 pkill -9 swayosd-server 2>/dev/null
 swayosd-server -s "$SWAYOSD_DIR/style.css" >/dev/null 2>&1 &
