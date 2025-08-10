@@ -102,6 +102,6 @@
     - name: Commit and push changes
       shell: |
         git add ..
-        git commit -m "Auto-update: $(date)"
+        git commit -m "{{ commit_msg }}"
         git push origin main
       when: git_status.stdout != ""
