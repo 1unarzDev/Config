@@ -49,6 +49,14 @@
         enabled: yes
         state: started
       with_items: "{{ system_services }}"
+
+    - name: Enable and start user services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+        scope: user
+      loop: "{{ user_services }}"
       
     - name: Copy secrets
       copy:
