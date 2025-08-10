@@ -106,8 +106,8 @@
           debug:
             msg: "Continuing with pre-rebase state due to conflicts. Consider resolving manually."
             
-      when: rebase_result.rc != 0
-      
+      when: rebase_result.failed | default(false)      
+
     - name: Pop stashed changes if we stashed them
       shell: git stash pop
       args:
