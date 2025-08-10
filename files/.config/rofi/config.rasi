@@ -72,7 +72,7 @@ entry {
     background-color: inherit;
     text-color: inherit;
     cursor: text;
-    placeholder: "(＿´Д`)ｱｲーﾝ";
+    placeholder: "o┓⌒┗o⌒o┓ﾋｬｯﾎｰゥ♪";
     placeholder-color: @color8;
     cursor-color: @color8;
 }

@@ -66,26 +66,26 @@ packages:
 dotfiles:
   - .zshrc
   - .p10k.zsh
-  - .oh-my-zsh
-  - .config/hypr
-  - .config/waybar
-  - .config/kitty
-  - .config/spicetify
-  - .config/scripts
-  - .config/rofi
-  - .config/mako
-  - .config/nvim
-  - .config/xdg-desktop-portal
-  - .config/xdg-desktop-portal-termfilechooser
-  - .config/swww
-  - .config/systemd
-  - .config/wal
-  - .config/qt6ct
-  - .zen/Zen
+  - .oh-my-zsh/
+  - .config/hypr/
+  - .config/waybar/
+  - .config/kitty/
+  - .config/spicetify/
+  - .config/scripts/
+  - .config/rofi/
+  - .config/mako/
+  - .config/nvim/
+  - .config/xdg-desktop-portal/
+  - .config/xdg-desktop-portal-termfilechooser/
+  - .config/swww/
+  - .config/systemd/
+  - .config/wal/
+  - .config/qt6ct/
+  - .zen/Zen/
 
 secrets:
   - .gitconfig
-  - .config/gh
+  - .config/gh/
   
 system_services:
   - systemctl enable NetworkManager
