@@ -1,305 +1,92 @@
-@import "../../.cache/wal/colors-waybar.css";
+@import '../../.cache/wal/colors-waybar.css';
 
 * {
-    font-family: "FiraMono Nerd Font Propo", "FiraCode Nerd Font Propo", sans-serif;
-    font-weight: normal;
-    font-size: 14px;
-    color: @text;
-}
-
-/*                    */
-/* \    /_.  |_  _.._ */
-/*  \/\/(_|\/|_)(_||  */
-/*         /          */
-
-window#waybar {
-    background-color: transparent;
-    /* transition-property: background-color;
-    transition-duration: .5s; */
-}
-
-/* Example conditional styles based on Waybar state. */
-/*window#waybar.hidden {
-    opacity: 0.2;
-}*/
-/*window#waybar.solo {
-    background-color: #FFFFFF;
-}*/
-/* Rule when the solo tiled window in the workspace is a specific class. */
-/*window#waybar.firefox {
-    background-color: #000000;
-    border: none;
-}*/
-
-/* ___                */
-/*  | _  _ |_|_o._  _ */
-/*  |(_)(_)| |_||_)_> */
-/*              |     */
-
-/* The tooltip itself (background, border) */
-tooltip {
-    padding: 0;
-    border: 2px solid transparent;
-    border-radius: 18px;
-    background-color: alpha(@background, 0.7);
-}
-
-/* Clear default GTK styling. */
-tooltip * {
-    padding: 0;
-    margin: 0;
-    border: none;
-    border-radius: inherit;
-    background-color: transparent;
-}
-
-/* Tooltip Text Box */
-tooltip label {
-    padding: 8px;
-}
-
-/*                     */
-/* |\/| _  _|   | _  _ */
-/* |  |(_)(_||_||(/__> */
-/*                     */
-
-/* Default styling for module sections. */
-.modules-left,
-.modules-center,
-.modules-right,
-#workspaces,
-#window {
-    border: 2px solid transparent;
-    border-radius: 18px;
-    background-color: alpha(@background, 0.7);
-}
-
-/*       _    */
-/* |  __|__|_ */
-/* |_(/_|  |_ */
-/*            */
-
-.modules-left {
-    border: none;
-    background-color: transparent;
-}
-
-button {
-    /* Use box-shadow instead of border so the text isn't offset */
-    /* box-shadow: inset 0 -3px transparent; */
-    /* Remove the GTK borders on buttons. */
-    box-shadow: inset 0 0 transparent;
-    border: none;
-    border-radius: 0;
-    color: @text;
-}
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-button:hover {
-    /*background: inherit;*/
-    /*box-shadow: inset 0 -3px #ffffff;*/
-    /* Removes the default button hover effect. */
-    box-shadow: inherit;
-    text-shadow: inherit;
-}
-
-/* Space everything in modules-left by the same amount. */
-#workspaces, #window {
-    margin: 0px 2px;
-}
-
-/* Push buttons inward to match circle to border radius. */
-#workspaces {
-    padding: 0px 3px;
-}
-
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
-}
-
-/* For workspace icons, clear padding and space by constant amount. */
-#workspaces button {
-/*    padding: 0 5px;
-    background-color: transparent;
-    color: #ffffff;*/
-    /* Zeroes out the default GTK padding.*/
-    padding: 0;
-    margin: 0px 2px;
-    /*transition-property: background-color;
-    transition-duration: .5s;*/
-}
-
-/* Default GTK styling makes text become highlighted. */
-#workspaces button:hover {
-    transition: 0.3s;
-    opacity: 0.5;
-    background: transparent;
-}
-
-#workspaces button.active {
-    /*box-shadow: inset 0 -3px #ffffff;*/
-}
-
-#workspaces button.urgent {
-    color: @red;
-}
-
-#workspaces.special button.urgent {
-    color: inherit;
-}
-
-#window {
-    padding: 0px 8px;
-
-    /* This transition matches the window animations in Hyprland.
-       The last bezier value is increased to make the transition more visible.
-       0.3 corresponds to an animation speed of 3 in Hyprland. */
-    transition-property: padding;
-    transition-duration: 0.3s;
-    transition-timing-function: cubic-bezier(0.1, 1.0, 0.3, 1.8);
-}
-
-/* Bold the window title if the workspace is zoomed. */
-window#waybar.fullscreen #window {
+    font-size: 16px;
+    font-family: "JetBrainsMono Nerd Font";
     font-weight: bold;
-    
-    padding: 0px 16px;
-}
-
-/* Remove the window widget if there is no window in workspace. */
-window#waybar.empty #window {
     background-color: transparent;
-    border: none;
 }
 
-/*  _              */
-/* /  _ .__|_ _ ._ */
-/* \_(/_| ||_(/_|  */
-/*                 */
-
-.modules-center {
-    margin: 0px 10px;
+#clock,
+#battery,
+#workspaces,
+#utils {
+    background-color: alpha(@background, 0.7);
+    padding-left: 1.0rem;
+    padding-right: 1.0rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+    border-bottom: 3px solid @foreground;
+    border-top: 3px solid @foreground;
 }
 
-#clock {
-    padding: 0px 8px;
-}
-
-#clock label:hover {
-    background-color: white;
-}
-
-/*  _           */
-/* |_)o _ |__|_ */
-/* | \|(_|| ||_ */
-/*      _|      */
-
-.modules-right {
-    padding: 0px 3px;
-}
-
-#keyboard-state > label.locked,
-#idle_inhibitor,
-#backlight,
-#pulseaudio,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#custom-battery,
 #bluetooth,
 #network,
 #custom-power {
-    margin: 0px 2px;
-    padding: 0px 2px;
-    /*background-color: #ffffff;*/
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
-#tray {
-    margin: 0px 0px;
-    padding: 0px 0px;
+#clock {
+    color: @color7;
+    border: 3px solid @foreground;
+    border-radius: 100px 10px 100px 10px;
+    margin-left: 10px;
+    padding: 0px 40px 0px 40px;
 }
 
-.modules-right > widget:first-child {
-    margin-left: 0;
-}
-
-.modules-right > widget:last-child {
-    margin-right: 0;
-}
-
-#tray {
-}
-
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-    background-color: alpha(@color5, 0.7);
-}
-
-/* Zero out the padding/margin for the module itself and let
-   the label inside handle margin for when the locked icon appears. */
-#keyboard-state {
-    padding: 0;
-    margin: 0;
-}
-
-#keyboard-state > label {
-}
-
-#keyboard-state > label.locked {
-}
-
-/* Pushing the CPU and memory modules together. */
-#cpu {
-    margin-right: 0;
-}
-
-#memory {
-    margin-left: 0;
-}
-
-#disk {
-}
-
-#backlight {
-}
-
-#pulseaudio {
-}
-
-#pulseaudio.muted {
-    color: @color5;
-}
-
-/* Pushing the two pulseaudio modules together. */
-#pulseaudio.output {
-    margin-right: 0;
-}
-
-#pulseaudio.input {
-    margin-left: 0;
-}
-
-#temperature {
-}
-
-#temperature.critical {
-    font-weight: bold;
-}
-
-#custom-battery {
-}
-
-#bluetooth {
+#battery {
+    color: @color7;
+    border: 3px solid @foreground;
+    border-radius: 10px 50px 50px 100px;
+    margin-right: 5px;
+    padding: 0px 40px 0px 40px;
 }
 
 #network {
+    margin-right: 20px
 }
 
-#network.disconnected {
+
+#custom-power {
+    margin-right: 20px;
+}
+
+#utils {
+    color: @color7;
+    border: 3px solid @foreground;
+    border-radius: 50px 100px 10px 50px;
+    margin-left: 5px;
+    margin-right: 10px;
+    padding: 0px 25px 0px 25px;
+}
+
+#workspaces {
+    border-radius: 70px 70px 10px 10px;
+    border: 3px solid @foreground;
+    padding-left: 2.0rem;
+    padding-right: 2.0rem;
+}
+
+#workspaces button {
+    color: @color7;
+    padding-left: 1.0rem;
+    padding-right: 1.0rem;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.5;
+}
+
+#workspaces button.active {
+    color: @color7;
+    border-radius: 0px;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+}
+
+#workspaces button:hover {
+    color: @color7;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    background: transparent;
+    border-color: transparent;
 }

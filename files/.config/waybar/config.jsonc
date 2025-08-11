@@ -1,0 +1,95 @@
+{
+    "reload_style_on_change": true,
+    "layer": "top",
+    "position": "top",
+    "margin": "8 10 -2 10",
+    "modules-left": ["clock"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["battery", "group/utils"],
+    "passthrough": false,
+    "fixed-center": true,
+    "spacing": 0,
+
+    "clock": {
+        "format": "{:%H:%M} ",
+        "format-alt": "{:%d/%m/%Y}",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "*": 5,
+        },
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九",
+            "10": "十",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        },
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-alt": "{icon}  {time}",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false
+    },
+
+    "group/utils": {
+      "orientation": "horizontal",
+      "modules": [
+        "bluetooth",
+        "network",
+        "custom/power"
+      ]
+    },
+
+    "bluetooth": {
+        "format-on": "󰂯",
+        "format-off": "󰂲",
+        "format-disabled": "",
+        "format-connected": "󰂱 {num_connections}",
+        "tooltip-format-connected": "{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "~/.config/scripts/rofi-bluetooth.sh"
+    },
+
+    "network": {
+        // "interface": "wlp2*",
+        // "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-wifi": "{icon}",
+	    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        // "format-ethernet": "{ipaddr}/{cidr} 󰈀",
+        "format-ethernet": "󰈀",
+        "format-linked": "{ifname} 󰈀",
+        "format-disconnected": "󰤫",
+        // "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "on-click": "~/.config/scripts/rofi-wifi.sh"
+    },
+
+    "custom/power": {
+        "format": "",
+        "tooltip": true,
+        "tooltip-format": "DON'T TURN ME OFF ",
+        "on-click": "~/.config/scripts/wlogout.sh"
+    },
+}

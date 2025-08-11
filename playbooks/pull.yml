@@ -106,13 +106,13 @@
           debug:
             msg: "Continuing with pre-rebase state due to conflicts. Consider resolving manually."
             
-      when: rebase_result.failed
+      when: rebase_result is failed
       
     - name: Pop stashed changes if we stashed them
       shell: git stash pop
       args:
         chdir: "{{ repo_dir }}"
-      when: stash_result is defined and stash_result.changed
+      when: stash_result is defined and stash_result is changed
       failed_when: false
       register: stash_pop_result
       
@@ -121,7 +121,7 @@
         msg: |
           Stash pop resulted in conflicts. Your changes are still in the stash.
           Run 'git stash list' to see them and 'git stash drop' to remove if not needed.
-      when: stash_pop_result is defined and stash_pop_result.failed
+      when: stash_pop_result is defined and stash_pop_result is failed
 
     - name: Check if yay is installed
       command: which yay
@@ -149,20 +149,24 @@
             path: /tmp/yay
             state: absent
             
-      when: yay_check.failed
+      when: yay_check is failed
       
     - name: Update package database
-      shell: yay -Sy
+      shell: yay -Sy --noconfirm --needed
       become: no
       changed_when: false
+      failed_when: false
       
-    - name: Install packages with yay (batch mode)
+    - name: Install AUR package with yay
       shell: |
-        yay -S --noconfirm --needed {{ packages | join(' ') }}
-      become: no
+        echo "{{ ansible_become_pass }}" | yay -S --noconfirm --needed --noprogressbar --quiet {{ item }}
+      loop: "{{ packages }}"
       register: package_install
+      become: no
       changed_when: "'there is nothing to do' not in package_install.stdout"
-      failed_when: package_install.failed and 'nothing to do' not in package_install.stdout
+      failed_when: package_install is failed and 'nothing to do' not in package_install.stdout
+      no_log: true
+      when: ansible_become_pass is defined
 
     - name: Backup existing dotfiles
       shell: |
@@ -210,9 +214,8 @@
       debug:
         msg: "Failed to start system service: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
       loop: "{{ system_services_result.results }}"
-      when: item.failed
+      when: item is failed
 
-    # ==== USER SERVICES ====
     - name: Enable and start user services
       systemd:
         name: "{{ item }}"
@@ -230,9 +233,8 @@
       debug:
         msg: "Failed to start user service: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
       loop: "{{ user_services_result.results }}"
-      when: item.failed
+      when: item is failed
 
-    # ==== SECRETS MANAGEMENT ====
     - name: Deploy secrets (if vault is available)
       copy:
         src: "{{ repo_dir }}/files/{{ item }}"
@@ -243,7 +245,6 @@
       when: deploy_secrets | default(true)
       no_log: true
 
-    # ==== SYSTEM RESOURCES ====
     - name: Sync cursors to system icons
       synchronize:
         src: "{{ repo_dir }}/files/cursors/"
@@ -256,7 +257,7 @@
     - name: Update icon cache
       shell: gtk-update-icon-cache /usr/share/icons/
       become: yes
-      when: cursors_sync.changed
+      when: cursors_sync is changed
       failed_when: false
       
     - name: Sync fonts to user directory
@@ -269,7 +270,7 @@
       
     - name: Update font cache
       shell: fc-cache -fv "{{ home_dir }}/.local/share/fonts/"
-      when: fonts_sync.changed
+      when: fonts_sync is changed
       
     - name: Check if Hyprland is running
       shell: pgrep -x Hyprland

@@ -69,7 +69,6 @@ packages:
 dotfiles:
   - .zshrc
   - .p10k.zsh
-  - .oh-my-zsh/
   - .config/hypr/
   - .config/waybar/
   - .config/kitty/

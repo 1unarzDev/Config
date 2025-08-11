@@ -1,4 +1,5 @@
 #!/bin/sh
+LOCK_FILE="$HOME/.cache/wallpaper_change.lock"
 WALLPAPER_DIR="$HOME/.config/swww/wallpapers"
 STATE_FILE="$HOME/.cache/current_wallpaper"
 WALLPAPER_CACHE="$HOME/.cache/current_wallpaper_file"
@@ -9,13 +10,53 @@ HYPRLOCK_CONFIG="$HOME/.config/hypr/hyprlock.conf"
 MAKO_CONFIG="$HOME/.config/mako/config"
 SWAYOSD_DIR="$HOME/.config/swayosd"
 
+# Function to cleanup on exit
+cleanup() {
+    rm -f "$LOCK_FILE"
+    exit 0
+}
+trap cleanup EXIT INT TERM
+
+# Check if another instance is running
+if [ -f "$LOCK_FILE" ]; then
+    if kill -0 "$(cat "$LOCK_FILE" 2>/dev/null)" 2>/dev/null; then
+        echo "Another wallpaper change is in progress..."
+        exit 1
+    else
+        rm -f "$LOCK_FILE"
+    fi
+fi
+
+echo $$ > "$LOCK_FILE"
+
+# Kill any existing swww operations
+pkill -f "swww img" 2>/dev/null || true
+
 # Get all images
 images=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | sort)
 total=$(echo "$images" | wc -l)
 
 # Get current index
 current=$(cat "$STATE_FILE" 2>/dev/null || echo "0")
-next=$(( (current + $1) % total ))
+
+# Validate current index
+if ! echo "$current" | grep -q '^[0-9]\+$'; then
+    current=0
+fi
+
+# Ensure current is within bounds
+if [ "$current" -ge "$total" ] || [ "$current" -lt 0 ]; then
+    current=0
+fi
+
+if [ "$1" -lt 0 ]; then
+    next=$((current + ${1}))
+    while [ "$next" -lt 0 ]; do
+        next=$((next + total))
+    done
+else
+    next=$(( (current + ${1}) % total ))
+fi
 
 # Get the image
 image=$(echo "$images" | sed -n "$((next + 1))p")
@@ -31,7 +72,7 @@ x=$(echo "$x * $scale" | bc | cut -d'.' -f1)
 y=$(echo "$y * $scale" | bc | cut -d'.' -f1)
 
 cursor="$x,$y"
-swww img $image --transition-type grow --transition-pos $cursor --invert-y --transition-step 2 --transition-fps 60 --transition-duration 2
+swww img $image --transition-type grow --transition-pos $cursor --invert-y --transition-step 3 --transition-fps $FPS --transition-duration 2
 sleep 1.1
 
 # Update pywal
@@ -126,4 +167,3 @@ mv "$tmpfile" "$SPICETIFY_CONFIG"
 
 # Save current index
 echo "$next" > "$STATE_FILE"
-

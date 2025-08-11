@@ -14,14 +14,23 @@ fi
 
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Plugins
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
-source $ZSH/oh-my-zsh.sh
+# Install and load Zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Your plugins
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit load "zsh-users/zsh-syntax-highlighting"
+zinit load "zsh-users/zsh-autosuggestions"
+zinit load "zsh-users/zsh-completions"
+
+# Initialize completions
+autoload -U compinit && compinit
 
 # Basic config
-ENABLE_CORRECTION="true"
+setopt CORRECT
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
 export TERMINAL=kitty 
@@ -76,7 +85,12 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Aliases
-alias ls='ls --color'
+alias ls='ls --color -AFG'
+alias mirror-update='sudo reflector --verbose --score 100 -l 50 -f 10 --sort rate --save /etc/pacman.d/mirrorlist' 
+alias cpv="rsync -ah --info=progress2" 
+alias big="du -a -BM | sort -n -r | head -n 10" 
+alias ..="cd .."
+alias svim="sudo -E -s nvim"
 
 # Shell integrations
 eval "$(fzf --zsh)"
