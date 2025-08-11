@@ -21,7 +21,9 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Your plugins
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice depth=1 
+zinit light romkatv/powerlevel10k
+zinit light jeffreytse/zsh-vi-mode
 zinit load "zsh-users/zsh-syntax-highlighting"
 zinit load "zsh-users/zsh-autosuggestions"
 zinit load "zsh-users/zsh-completions"

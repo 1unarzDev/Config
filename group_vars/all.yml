@@ -65,6 +65,8 @@ packages:
   - xdg-desktop-portal-termfilechooser-boydaihungst-git
   - spotify
   - spicetify-cli
+  - rofi-calc
+  - rofi-emoji
 
 dotfiles:
   - .zshrc

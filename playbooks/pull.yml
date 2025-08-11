@@ -158,11 +158,11 @@
       failed_when: false
       
     - name: Install AUR package with yay
-      shell: |
-        echo "{{ ansible_become_pass }}" | yay -S --noconfirm --needed --noprogressbar --quiet {{ item }}
+      shell: yay -S --noconfirm --needed --noprogressbar --quiet {{ item }}
       loop: "{{ packages }}"
       register: package_install
-      become: no
+      become: yes
+      become_method: sudo
       changed_when: "'there is nothing to do' not in package_install.stdout"
       failed_when: package_install is failed and 'nothing to do' not in package_install.stdout
       no_log: true

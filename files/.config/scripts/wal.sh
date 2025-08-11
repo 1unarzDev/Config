@@ -82,7 +82,7 @@ wal -e -n -i "$image"
 source ~/.cache/wal/colors.sh
 
 # Update config file
-sed -i "s/col\.active_border = .*/col.active_border = rgba(${color5#\#}ee) rgba(${color7#\#}ee) 45deg/" "$CONFIG_FILE"
+sed -i "s/col\.active_border = .*/col.active_border = rgba(${color7#\#}ee) rgba(${color5#\#}ee) 10deg/" "$CONFIG_FILE"
 sed -i "s/col\.inactive_border = .*/col.inactive_border = rgba(${color8#\#}aa)/" "$CONFIG_FILE"
 
 # Hyprlock wallpaper
@@ -123,7 +123,7 @@ swayosd-server -s "$SWAYOSD_DIR/style.css" >/dev/null 2>&1 &
 disown
 
 # Also update runtime (for immediate effect)
-hyprctl keyword general:col.active_border "rgba(${color5#\#}ee) rgba(${color7#\#}ee) 45deg"
+hyprctl keyword general:col.active_border "rgba(${color7#\#}ee) rgba(${color5#\#}ee) 10deg"
 hyprctl keyword general:col.inactive_border "rgba(${color8#\#}aa)"
 
 # Update spicetify colors

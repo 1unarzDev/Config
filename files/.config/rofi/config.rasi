@@ -10,6 +10,8 @@ configuration {
     drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";
     window-format: "{w} · {c} · {t}";
     font: "JetBrainsMono Nerd Font 12";
+    kb-mode-next: "Alt+l";
+    kb-mode-previous: "Alt+h";
 }
 
 window {
@@ -72,7 +74,7 @@ entry {
     background-color: inherit;
     text-color: inherit;
     cursor: text;
-    placeholder: "ｴ━･ﾟ･(*ﾉﾉ)━(*ﾉωﾉ)━･ﾟ･(*ﾉωﾟ)ゝﾁﾗｯ･ﾟ･━(*ﾉωﾉ)━(*ﾉﾉ)･ﾟ･━ﾝ!!!";
+    placeholder: "ﾎﾟｶ──(ﾟдﾟ)──ﾝ";
     placeholder-color: @color8;
     cursor-color: @color8;
 }

@@ -9,6 +9,11 @@ vim.opt.clipboard = "unnamedplus"
 local opts = { noremap = true, silent = true }
 vim.g.mapleader = " "
 
+-- Lines
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.signcolumn = "number"
+
 -- Tabs
 vim.opt.tabstop = 4 -- Number of spaces a tab character represents
 vim.opt.shiftwidth = 4 -- Number of spaces to use for autoindentation
@@ -20,6 +25,14 @@ vim.keymap.set("v", "<Tab>", ">gv", opts)
 vim.keymap.set("v", "<S-Tab>", "<gv", opts)
 vim.keymap.set("i", "<Tab>", "<C-t>", opts)
 vim.keymap.set("i", "<S-Tab>", "<C-d>", opts)
+
+-- Telescope
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<C-p>", builtin.find_files, {})
+vim.keymap.set("n", "<leader>fq", builtin.live_grep, {})
+
+-- Tree
+vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 -- Competitest
 require('competitest').setup {

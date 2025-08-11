@@ -16,7 +16,7 @@
     padding-right: 1.0rem;
     margin-top: 0.5rem;
     margin-bottom: 0.2rem;
-    border-bottom: 3px solid @foreground;
+    border-bottom: 3px solid alpha(@color6, 0.5);
     border-top: 3px solid @foreground;
 }
 
@@ -28,16 +28,16 @@
 }
 
 #clock {
-    color: @color7;
-    border: 3px solid @foreground;
+    color: @foreground;
+    border: 2.5px solid @foreground;
     border-radius: 100px 10px 100px 10px;
     margin-left: 10px;
     padding: 0px 40px 0px 40px;
 }
 
 #battery {
-    color: @color7;
-    border: 3px solid @foreground;
+    color: @foreground;
+    border: 2.5px solid @foreground;
     border-radius: 10px 50px 50px 100px;
     margin-right: 5px;
     padding: 0px 40px 0px 40px;
@@ -53,8 +53,8 @@
 }
 
 #utils {
-    color: @color7;
-    border: 3px solid @foreground;
+    color: @foreground;
+    border: 2.5px solid @foreground;
     border-radius: 50px 100px 10px 50px;
     margin-left: 5px;
     margin-right: 10px;
@@ -63,28 +63,32 @@
 
 #workspaces {
     border-radius: 70px 70px 10px 10px;
-    border: 3px solid @foreground;
+    border: 2.5px solid @foreground;
     padding-left: 2.0rem;
     padding-right: 2.0rem;
 }
 
 #workspaces button {
-    color: @color7;
+    color: @foreground;
     padding-left: 1.0rem;
     padding-right: 1.0rem;
     transition: all 0.3s ease-in-out;
     opacity: 0.5;
 }
 
+#workspaces button:not(.empty) {
+    color: @foreground;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.5;
+}
 #workspaces button.active {
-    color: @color7;
-    border-radius: 0px;
+    color: @foreground;
     transition: all 0.3s ease-in-out;
     opacity: 1;
 }
 
 #workspaces button:hover {
-    color: @color7;
+    color: @foreground;
     opacity: 1;
     transition: all 0.3s ease-in-out;
     background: transparent;
