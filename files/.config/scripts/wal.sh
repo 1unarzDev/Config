@@ -32,34 +32,36 @@ echo $$ > "$LOCK_FILE"
 # Kill any existing swww operations
 pkill -f "swww img" 2>/dev/null || true
 
-# Get all images
-images=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | sort)
-total=$(echo "$images" | wc -l)
+image=$1
 
-# Get current index
-current=$(cat "$STATE_FILE" 2>/dev/null || echo "0")
-
-# Validate current index
-if ! echo "$current" | grep -q '^[0-9]\+$'; then
-    current=0
-fi
-
-# Ensure current is within bounds
-if [ "$current" -ge "$total" ] || [ "$current" -lt 0 ]; then
-    current=0
-fi
-
-if [ "$1" -lt 0 ]; then
-    next=$((current + ${1}))
-    while [ "$next" -lt 0 ]; do
-        next=$((next + total))
-    done
-else
-    next=$(( (current + ${1}) % total ))
-fi
-
-# Get the image
-image=$(echo "$images" | sed -n "$((next + 1))p")
+# # Get all images
+# images=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | sort)
+# total=$(echo "$images" | wc -l)
+#
+# # Get current index
+# current=$(cat "$STATE_FILE" 2>/dev/null || echo "0")
+#
+# # Validate current index
+# if ! echo "$current" | grep -q '^[0-9]\+$'; then
+#     current=0
+# fi
+#
+# # Ensure current is within bounds
+# if [ "$current" -ge "$total" ] || [ "$current" -lt 0 ]; then
+#     current=0
+# fi
+#
+# if [ "$1" -lt 0 ]; then
+#     next=$((current + ${1}))
+#     while [ "$next" -lt 0 ]; do
+#         next=$((next + total))
+#     done
+# else
+#     next=$(( (current + ${1}) % total ))
+# fi
+#
+# # Get the image
+# image=$(echo "$images" | sed -n "$((next + 1))p")
 
 # Set wallpaper with transition
 scale=$(grep "^monitor=" $CONFIG_FILE | cut -d',' -f4)
@@ -165,5 +167,5 @@ awk -v new_section_file="$PYWAL_SPICETIFY" '
 ' "$SPICETIFY_CONFIG" > "$tmpfile"
 mv "$tmpfile" "$SPICETIFY_CONFIG"
 
-# Save current index
-echo "$next" > "$STATE_FILE"
+# # Save current index
+# echo "$next" > "$STATE_FILE"
