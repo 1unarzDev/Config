@@ -71,6 +71,7 @@ packages:
 dotfiles:
   - .zshrc
   - .p10k.zsh
+  - .profile
   - .config/hypr/
   - .config/waybar/
   - .config/kitty/
@@ -79,6 +80,7 @@ dotfiles:
   - .config/rofi/
   - .config/mako/
   - .config/nvim/
+  - .config/fastfetch/
   - .config/xdg-desktop-portal/
   - .config/xdg-desktop-portal-termfilechooser/
   - .config/swww/
