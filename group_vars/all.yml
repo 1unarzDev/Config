@@ -76,10 +76,13 @@ dotfiles:
   - .config/waybar/
   - .config/kitty/
   - .config/spicetify/
+  - .config/wlogout/
   - .config/scripts/
   - .config/rofi/
   - .config/mako/
   - .config/nvim/
+  - .config/gtk-3.0/
+  - .config/gtk-4.0/
   - .config/fastfetch/
   - .config/xdg-desktop-portal/
   - .config/xdg-desktop-portal-termfilechooser/
@@ -92,6 +95,7 @@ dotfiles:
 secrets:
   - .gitconfig
   - .config/gh/
+  - .config/secrets/
   
 system_services:
   - NetworkManager

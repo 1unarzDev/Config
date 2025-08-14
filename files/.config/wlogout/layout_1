@@ -1,0 +1,29 @@
+{
+    "label": "lock",
+    "action": "pkill wlogout && sleep 0.1 && loginctl lock-session",
+    "keybind": "l"
+}
+
+{
+    "label": "logout",
+    "action": "pkill wlogout && sleep 0.1 && hyprctl dispatch exit 0",
+    "keybind": "e"
+}
+
+{
+    "label": "shutdown",
+    "action": "systemctl poweroff",
+    "keybind": "s"
+}
+
+{
+    "label": "hibernate",
+    "action": "systemctl hibernate",
+    "keybind": "h"
+}
+
+{
+    "label": "reboot",
+    "action": "systemctl reboot",
+    "keybind": "r"
+}

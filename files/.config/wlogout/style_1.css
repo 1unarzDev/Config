@@ -1,0 +1,91 @@
+* {
+    background-image: none;
+    font-size: ${fntSize}px;
+    font-family: JetBrainsMono Nerd Font;
+}
+
+window {
+    background-color: transparent;
+}
+
+button {
+    color: ${BtnCol};
+    background-color: ${background};
+    outline-style: none;
+    border: none;
+    border-width: 0px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30%;
+    border-radius: 0px;
+    box-shadow: none;
+    text-shadow: none;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+button:focus {
+    background-color: ${color6};
+    background-size: 50%;
+    border-radius: ${active_rad}px;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+button:focus#lock {
+    border-radius: ${active_rad}px;
+    margin: ${hvr}px 0px ${hvr}px ${mgn}px;
+    padding: 0px ${active_rad}px 0px ${active_rad}px;
+}
+
+button:focus#logout {
+    border-radius: ${active_rad}px;
+    margin: ${hvr}px 0px ${hvr}px 0px;
+    padding: 0px ${active_rad}px 0px ${active_rad}px;
+}
+
+button:focus#shutdown {
+    border-radius: ${active_rad}px;
+    margin: ${hvr}px 0px ${hvr}px 0px;
+    padding: 0px ${active_rad}px 0px ${active_rad}px;
+}
+
+button:focus#hibernate {
+    border-radius: ${active_rad}px;
+    margin: ${hvr}px 0px ${hvr}px 0px;
+    padding: 0px ${active_rad}px 0px ${active_rad}px;
+}
+
+button:focus#reboot {
+    border-radius: ${active_rad}px;
+    margin: ${hvr}px ${mgn}px ${hvr}px 0px;
+    padding: 0px ${active_rad}px 0px ${active_rad}px;
+}
+
+#lock {
+    background-image: image(url("$HOME/.config/wlogout/icons/lock.png"));
+    border-radius: ${button_rad}px 0px 0px ${button_rad}px;
+    margin : ${mgn}px 0px ${mgn}px ${mgn}px;
+}
+
+#logout {
+    background-image: image(url("$HOME/.config/wlogout/icons/logout.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#shutdown {
+    background-image: image(url("$HOME/.config/wlogout/icons/shutdown.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#hibernate {
+    background-image: image(url("$HOME/.config/wlogout/icons/hibernate.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#reboot {
+    background-image: image(url("$HOME/.config/wlogout/icons/reboot.png"));
+    border-radius: 0px ${button_rad}px ${button_rad}px 0px;
+    margin : ${mgn}px ${mgn}px ${mgn}px 0px;
+}
