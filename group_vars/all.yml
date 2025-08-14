@@ -78,6 +78,7 @@ dotfiles:
   - .config/spicetify/
   - .config/wlogout/
   - .config/scripts/
+  - .config/swayosd/
   - .config/rofi/
   - .config/mako/
   - .config/nvim/

@@ -1,0 +1,33 @@
+window {
+    background-color: rgba(26, 30, 37, 0.7);
+    border: 2px solid rgba(197, 198, 200, 0.9);
+    border-radius: 50px;
+    padding: 7px 8px;
+    margin: 15px;
+}
+
+label {
+    color: rgba(197, 198, 200, 0.9);
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 20px;
+    font-weight: bold;
+}
+
+progressbar {
+    background-color: rgba(26, 30, 37, 0.7);
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+progressbar progress {
+    background-color: rgba(197, 198, 200, 0.9);
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+image {
+    color: rgba(197, 198, 200, 0.9);
+    min-width: 17px;
+    min-height: 17px;
+    margin-right: 5px;
+}
