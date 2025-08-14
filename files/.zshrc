@@ -20,10 +20,14 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
+# nvm
+export NVM_LAZY_LOAD=true
+
 # Your plugins
 zinit ice depth=1 
 zinit light romkatv/powerlevel10k
 zinit light jeffreytse/zsh-vi-mode
+zinit light lukechilds/zsh-nvm 
 zinit load "zsh-users/zsh-syntax-highlighting"
 zinit load "zsh-users/zsh-autosuggestions"
 zinit load "zsh-users/zsh-completions"
@@ -102,26 +106,4 @@ eval "$(zoxide init --cmd cd zsh)"
 export TERM=xterm
 check_terminal_size
 
-# Lazy load nvm
-typeset -ga __lazyLoadLabels=(nvm node npm npx pnpm yarn pnpx bun bunx)
-
-__load-nvm() {
-    export NVM_DIR="${NVM_DIR:-/usr/share/nvm}"
-
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-}
-
-__work() {
-    for label in "${__lazyLoadLabels[@]}"; do
-        unset -f $label
-    done
-    unset -v __lazyLoadLabels
-
-    __load-nvm
-    unset -f __load-nvm __work
-}
-
-for label in "${__lazyLoadLabels[@]}"; do
-    eval "$label() { __work; $label \$@; }"
-done
+source ~/.profile

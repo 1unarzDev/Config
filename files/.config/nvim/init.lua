@@ -26,15 +26,103 @@ vim.keymap.set("v", "<S-Tab>", "<gv", opts)
 vim.keymap.set("i", "<Tab>", "<C-t>", opts)
 vim.keymap.set("i", "<S-Tab>", "<C-d>", opts)
 
--- Telescope
+-- Fuzzy finder
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<C-p>", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fq", builtin.live_grep, {})
 
--- Tree
+-- Color highlights
+vim.opt.termguicolors = true
+require('nvim-highlight-colors').setup({})
+
+-- File tree
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
--- Competitest
+-- Pywal
+local pywal16 = require('pywal16')
+pywal16.setup()
+
+-- Status bar
+local pywal16_core = require('pywal16.core')
+local colors = pywal16_core.get_colors()
+
+local pywal_theme = {
+  normal = {
+    a = { fg = colors.color0, bg = colors.color5 },
+    b = { fg = colors.foreground, bg = "NONE" },
+    c = { fg = colors.foreground },
+  },
+
+  insert = { a = { fg = colors.color0, bg = colors.color4 } },
+  visual = { a = { fg = colors.color0, bg = colors.color3 } },
+  replace = { a = { fg = colors.foreground, bg = 'NONE' } },
+
+  inactive = {
+    a = { fg = colors.foreground, bg = 'NONE' },
+    b = { fg = colors.foreground, bg = 'NONE' },
+    c = { fg = colors.foreground },
+  },
+}
+
+-- local auto_theme_custom = require('lualine.themes.auto')
+-- auto_theme_custom.normal.c.bg = 'none'
+
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = pywal_theme,
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    always_show_tabline = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+      refresh_time = 16, -- ~60fps
+      events = {
+        'WinEnter',
+        'BufEnter',
+        'BufWritePost',
+        'SessionLoadPost',
+        'FileChangedShellPost',
+        'VimResized',
+        'Filetype',
+        'CursorMoved',
+        'CursorMovedI',
+        'ModeChanged',
+      },
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+-- Competitive programming helper
 require('competitest').setup {
 	local_config_file_name = ".competitest.lua",
 

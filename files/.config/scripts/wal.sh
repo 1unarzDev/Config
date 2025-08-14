@@ -111,7 +111,7 @@ hex_to_rgba() {
 }
 
 foreground_rgb=$(hex_to_rgba "$foreground" '0.9')
-background_rgb=$(hex_to_rgba "$background" '0.5')
+background_rgb=$(hex_to_rgba "$background" '0.7')
 
 sed "s/BACKGROUND_COLOR/$background_rgb/g; \
      s/BORDER_COLOR/$foreground_rgb/g; \
