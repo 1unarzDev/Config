@@ -64,4 +64,5 @@ local harpoon = require("harpoon")
 harpoon:setup()
 
 map("n", "<leader>ha", function() harpoon:list():add() end)
+map("n", "<leader>hr", function() harpoon:list():remove() end)
 map("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
