@@ -67,6 +67,10 @@ packages:
   - spicetify-cli
   - rofi-calc
   - rofi-emoji
+  - obsidian
+  - zathura
+  - beeper-v4-bin
+  - pilorama-git
 
 dotfiles:
   - .zshrc
@@ -79,8 +83,11 @@ dotfiles:
   - .config/wlogout/
   - .config/scripts/
   - .config/swayosd/
+  - .config/yazi/
   - .config/rofi/
+  - .config/cava/
   - .config/mako/
+  - .config/zathura/
   - .config/nvim/
   - .config/gtk-3.0/
   - .config/gtk-4.0/

@@ -1,0 +1,14 @@
+[general]
+autosens = 1
+framerate = 60
+sensitivity = 90
+bars = 0
+gravity = 100
+integral = 77
+
+[color]
+gradient = 1
+gradient_color_1 = '{color5}'
+gradient_color_2 = '{color4}'
+gradient_color_3 = '{color3}'
+gradient_color_4 = '{color2}'

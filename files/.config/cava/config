@@ -1,0 +1,14 @@
+[general]
+autosens = 1
+framerate = 60
+sensitivity = 90
+bars = 0
+gravity = 100
+integral = 77
+
+[color]
+gradient = 1
+gradient_color_1 = '#948284'
+gradient_color_2 = '#9E6157'
+gradient_color_3 = '#565765'
+gradient_color_4 = '#35526E'

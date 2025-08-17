@@ -1,0 +1,8 @@
+include ./colorsrc
+
+set adjust-open "best-fit"
+set zoom-min 50
+set zoom-max 250
+set window-title-home-tilde true
+set statusbar-basename true
+set selection-clipboard clipboard

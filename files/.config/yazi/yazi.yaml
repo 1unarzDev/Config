@@ -1,0 +1,7 @@
+[opener]
+pdff = [
+	{ run = 'zathura "$@"', desc = "zathura", block = true, for = "unix" },
+	]
+
+[open]
+{mime = "application/pdf", use = [ "pdff", "reveal" ] },

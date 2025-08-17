@@ -25,12 +25,14 @@ export NVM_LAZY_LOAD=true
 
 # Your plugins
 zinit ice depth=1 
+zinit snippet OMZ::plugins/git/git.plugin.zsh
 zinit light romkatv/powerlevel10k
 zinit light jeffreytse/zsh-vi-mode
 zinit light lukechilds/zsh-nvm 
-zinit load "zsh-users/zsh-syntax-highlighting"
-zinit load "zsh-users/zsh-autosuggestions"
-zinit load "zsh-users/zsh-completions"
+zinit light hlissner/zsh-autopair
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
 
 # Initialize completions
 autoload -U compinit && compinit
@@ -67,8 +69,8 @@ trap check_terminal_size SIGWINCH
 
 # Keybindings
 bindkey -e
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
 
 # History
 HISTSIZE=5000
@@ -101,6 +103,14 @@ alias svim="sudo -E -s nvim"
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 # Remove fastfetch screen if terminal becomes too small
 export TERM=xterm

@@ -9,6 +9,12 @@ SPICETIFY_CONFIG="$HOME/.config/spicetify/Themes/text/color.ini"
 HYPRLOCK_CONFIG="$HOME/.config/hypr/hyprlock.conf"
 MAKO_CONFIG="$HOME/.config/mako/config"
 SWAYOSD_DIR="$HOME/.config/swayosd"
+ZATHURA_DIR="$HOME/.config/zathura"
+PYWAL_ZATHURA="$HOME/.cache/wal/colors-zathura"
+PYWAL_CAVA="$HOME/.cache/wal/colors-cava"
+CAVA_DIR="$HOME/.config/cava"
+OBSIDIAN_SCRIPT="$HOME/.config/scripts/obsidian.sh"
+VAULT_DIR="$HOME/SecondBrain"
 
 # Function to cleanup on exit
 cleanup() {
@@ -127,6 +133,16 @@ disown
 # Also update runtime (for immediate effect)
 hyprctl keyword general:col.active_border "rgba(${color7#\#}ee) rgba(${color5#\#}ee) 10deg"
 hyprctl keyword general:col.inactive_border "rgba(${color8#\#}aa)"
+
+# Zathura colors
+cp $PYWAL_ZATHURA $ZATHURA_DIR/colorsrc
+
+# Cava
+cp $PYWAL_CAVA $CAVA_DIR/config
+pkill -USR1 cava
+
+# Obsidian
+bash $OBSIDIAN_SCRIPT $VAULT_DIR
 
 # Update spicetify colors
 tmpfile=$(mktemp)
