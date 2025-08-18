@@ -14,7 +14,7 @@ PYWAL_ZATHURA="$HOME/.cache/wal/colors-zathura"
 PYWAL_CAVA="$HOME/.cache/wal/colors-cava"
 CAVA_DIR="$HOME/.config/cava"
 OBSIDIAN_SCRIPT="$HOME/.config/scripts/obsidian.sh"
-VAULT_DIR="$HOME/SecondBrain"
+VAULT_DIR="$HOME/Vaults/SecondBrain"
 
 # Function to cleanup on exit
 cleanup() {

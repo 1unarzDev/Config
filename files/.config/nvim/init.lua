@@ -11,6 +11,8 @@ vim.opt.clipboard = "unnamedplus"
 -- Bindings
 local opts = { noremap = true, silent = true }
 vim.g.mapleader = " "
+map('n', '<CR>', 'm`o<Esc>``')
+map('n', '<S-CR>', 'm`O<Esc>``')
 
 -- Lines
 vim.opt.number = true
@@ -18,8 +20,8 @@ vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
 
 -- Tabs
-vim.opt.tabstop = 4 -- Number of spaces a tab character represents
-vim.opt.shiftwidth = 4 -- Number of spaces to use for autoindentation
+vim.opt.tabstop = 2 -- Number of spaces a tab character represents
+vim.opt.shiftwidth = 2 -- Number of spaces to use for autoindentation
 vim.opt.expandtab = true -- Convert tabs to spaces
 
 map("n", "<Tab>", ">>",  opts)

@@ -9,7 +9,10 @@ return {
         "bash", "c", "cpp", "html", "javascript", "json", "lua",
         "markdown", "python", "rust", "typescript", "yaml", "java", "go"
       },
-      highlight = { enable = true },
+      highlight = { 
+        enable = true,
+        disable = { "markdown" },
+      },
     })
   end
 }
