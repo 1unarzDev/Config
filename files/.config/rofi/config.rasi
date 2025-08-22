@@ -74,7 +74,7 @@ entry {
     background-color: inherit;
     text-color: inherit;
     cursor: text;
-    placeholder: "ﾝﾌﾌﾌﾌｯ(ﾉω｀*)";
+    placeholder: "(´･ωゞ)ｺﾞｼｺﾞｼ";
     placeholder-color: @color8;
     cursor-color: @color8;
 }

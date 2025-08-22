@@ -1,9 +1,12 @@
 [opener]
 pdf = [
-    { run = 'zathura "$@"', desc = "zathura", block = false, for = "unix" },
+	{ run = 'zathura "$@"', desc = "zathura", block = false, for = "unix" },
+]
+edit = [
+  { run = 'nvim "$@"', block = true },
 ]
 
 [open]
-rules = [
-    { mime = "application/pdf", use = [ "pdf", "reveal" ] }
+pdf = [
+  { mime = "application/pdf", use = [ "pdf", "reveal" ] },
 ]
