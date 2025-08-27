@@ -80,7 +80,9 @@ x=$(echo "$x * $scale" | bc | cut -d'.' -f1)
 y=$(echo "$y * $scale" | bc | cut -d'.' -f1)
 
 cursor="$x,$y"
-swww img $image --transition-type grow --transition-pos $cursor --invert-y --transition-step 3 --transition-fps $FPS --transition-duration 2
+for output in $(swww query | cut -d: -f1); do
+    swww img $image --transition-type grow --transition-pos $cursor --invert-y --transition-step 3 --transition-fps $FPS --transition-duration 2 --outputs $output
+done
 sleep 1.1
 
 # Update pywal
@@ -116,7 +118,7 @@ hex_to_rgba() {
     echo "rgba($r, $g, $b, $alpha)"
 }
 
-foreground_rgb=$(hex_to_rgba "$foreground" '0.9')
+foreground_rgb=$(hex_to_rgba "$foreground" '1')
 background_rgb=$(hex_to_rgba "$background" '0.7')
 
 sed "s/BACKGROUND_COLOR/$background_rgb/g; \

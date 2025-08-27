@@ -94,3 +94,8 @@
     background: transparent;
     border-color: transparent;
 }
+
+tooltip {
+    background-color: alpha(@background, 0.7);
+    border: 2.5px solid @foreground;
+}

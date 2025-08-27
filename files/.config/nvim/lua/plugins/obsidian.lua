@@ -17,7 +17,7 @@ return {
     callbacks = {
       pre_write_note = function(client, note)
         if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-          note:add_field("modified", os.date("%d-%m-%Y %H:%M"))
+          note:add_field("modified", os.date("%Y-%m-%d %H:%M"))
         end
       end,
     },
@@ -26,7 +26,7 @@ return {
     note_frontmatter_func = function(note)
       local out = { aliases = note.aliases, tags = note.tags, created = note.created, modified = note.modified, connections = note.connections }
 
-      out.created = os.date("%d-%m-%Y %H:%M:%S")
+      out.created = os.date("%Y-%m-%d %H:%M:%S")
       out.connections = {"[[]]"}
 
       -- Preserve existing metadata
@@ -38,14 +38,14 @@ return {
         return {}
       end
 
-      out.modified = os.date("%d-%m-%Y %H:%M:%S")
+      out.modified = os.date("%Y-%m-%d %H:%M:%S")
 
       return out
     end,
 
     templates = {
         folder = "Templates",
-        date_format = os.date("%d-%m-%Y"),
+        date_format = os.date("%Y-%m-%d"),
         time_format = os.date("%H:%M:%S"),
     },
   },

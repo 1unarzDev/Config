@@ -54,15 +54,16 @@ element selected.normal {
 }
 
 element-icon {
-    text-color: inherit;
-    size: 10%;
-    margin: -30px;
-    cursor: inherit;
+  text-color: inherit;
+  size: 10%;
+  margin: -5%;
+  cursor: inherit;
 }
 
 element-text {
   vertical-align: 0.5;
   horizontal-align: 0.5;
-  padding: 6px;
-  margin: 6px;
+  padding: 1%;
+  margin: 1%;
 }
+
