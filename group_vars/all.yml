@@ -64,6 +64,7 @@ packages:
   - xdg-desktop-portal-hyprland
   - xdg-desktop-portal-termfilechooser-boydaihungst-git
   - spotify
+  - tty-clock
   - spicetify-cli
   - rofi-calc
   - rofi-emoji
@@ -71,6 +72,9 @@ packages:
   - zathura
   - beeper-v4-bin
   - pilorama-git
+  - tty-clock
+  - docker
+  - morgen-bin
 
 dotfiles:
   - .zshrc
