@@ -8,7 +8,7 @@ integral = 77
 
 [color]
 gradient = 1
-gradient_color_1 = '#83ABC5'
-gradient_color_2 = '#8FA6C2'
-gradient_color_3 = '#C5C295'
-gradient_color_4 = '#9FADA4'
+gradient_color_1 = '#9F8F9C'
+gradient_color_2 = '#7687A4'
+gradient_color_3 = '#937A84'
+gradient_color_4 = '#677390'

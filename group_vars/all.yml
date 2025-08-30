@@ -75,6 +75,9 @@ packages:
   - tty-clock
   - docker
   - morgen-bin
+  - nwg-displays
+  - udisks2
+  - udiskie
 
 dotfiles:
   - .zshrc
