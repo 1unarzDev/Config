@@ -166,7 +166,6 @@
       changed_when: "'there is nothing to do' not in package_install.stdout"
       failed_when: package_install is failed and 'nothing to do' not in package_install.stdout
       no_log: true
-      when: ansible_become_pass is defined
 
     - name: Backup existing dotfiles
       shell: |
@@ -189,15 +188,6 @@
       loop: "{{ dotfiles }}"
       register: dotfiles_sync
       
-    - name: Set correct ownership for dotfiles
-      file:
-        path: "{{ home_dir }}/{{ item }}"
-        owner: "{{ ansible_user_id }}"
-        group: "{{ ansible_user_gid }}"
-        recurse: yes
-      loop: "{{ dotfiles }}"
-      become: no
-
     - name: Enable and start system services
       systemd:
         name: "{{ item }}"

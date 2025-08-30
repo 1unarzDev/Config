@@ -981,3 +981,7 @@ button:has(
 .NowPlayingView {
     --background-base: transparent !important;
 }
+
+.main-nowPlayingView-section * {
+  border-radius: 12px !important;
+}

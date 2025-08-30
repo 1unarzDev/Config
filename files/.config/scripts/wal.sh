@@ -4,6 +4,7 @@ WALLPAPER_DIR="$HOME/.config/swww/wallpapers"
 STATE_FILE="$HOME/.cache/current_wallpaper"
 WALLPAPER_CACHE="$HOME/.cache/current_wallpaper_file"
 CONFIG_FILE="$HOME/.config/hypr/hyprland.conf"
+DEVICE_CONFIG_FILE="$HOME/.config/hypr/device.conf"
 PYWAL_SPICETIFY="$HOME/.cache/wal/colors-spicetify.ini"
 SPICETIFY_CONFIG="$HOME/.config/spicetify/Themes/text/color.ini"
 HYPRLOCK_CONFIG="$HOME/.config/hypr/hyprlock.conf"
@@ -70,7 +71,7 @@ image=$1
 # image=$(echo "$images" | sed -n "$((next + 1))p")
 
 # Set wallpaper with transition
-scale=$(grep "^monitor=" $CONFIG_FILE | cut -d',' -f4)
+scale=$(grep "^monitor=" $DEVICE_CONFIG_FILE | cut -d',' -f4)
 cursor_raw=$(hyprctl cursorpos)
 
 x=$(echo "$cursor_raw" | cut -d',' -f1 | tr -d ' ')

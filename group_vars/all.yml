@@ -6,6 +6,7 @@ backup_existing: true
 deploy_secrets: true
 
 packages:
+  - rsync
   - git
   - neovim
   - tmux
@@ -78,6 +79,11 @@ packages:
   - nwg-displays
   - udisks2
   - udiskie
+  - bc
+  - luarocks
+  - noto-fonts-cjk
+  - fastfetch
+  - spicetify-marketplace-bin
 
 dotfiles:
   - .zshrc

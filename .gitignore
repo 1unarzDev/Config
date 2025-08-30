@@ -1,3 +1,4 @@
 *.retry
 .vault
 .vscode
+device.conf

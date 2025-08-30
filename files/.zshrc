@@ -1,4 +1,4 @@
-MAX_WIDTH=45
+MAX_WIDTH=55
 MAX_HEIGHT=10
 
 tput cols | read WIDTH
