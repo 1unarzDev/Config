@@ -6,6 +6,7 @@
   vars:
     home_dir: "{{ lookup('env', 'HOME') }}"
     repo_dir: "{{ home_dir }}/{{ repo_name }}"
+    user: "{{ lookup('env', 'USER') }}"
     
   handlers:
     - name: reload systemd user
@@ -151,21 +152,48 @@
             
       when: yay_check is failed
       
-    - name: Update package database
-      shell: yay -Sy --noconfirm --needed
-      become: no
-      changed_when: false
-      failed_when: false
+    - name: Ensure reflector is installed
+      pacman:
+        name: reflector
+        state: present
+      become: yes
+
+    - name: Update pacman databases
+      command: pacman -Syy --noconfirm
+      become: yes
+      register: pacman_update
+      ignore_errors: yes
+
+    - name: Refresh mirrorlist if pacman update failed
+      command: >
+        reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+      become: yes
+      when: pacman_update.rc != 0
+
+    - name: Update pacman databases again after mirror refresh
+      command: pacman -Syy --noconfirm
+      become: yes
+      when: pacman_update.rc != 0
+
+    - name: Allow Ansible user to run pacman without password
+      copy:
+        dest: /etc/sudoers.d/aur
+        content: "{{ user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        owner: root
+        group: root
+        mode: '0440'
+        validate: 'visudo -cf %s'
+      become: yes
+
+    - name: Try to install aur collection
+      shell: ansible-galaxy collection install kewlfft.aur
       
-    - name: Install AUR package with yay
-      shell: yay -S --noconfirm --needed --noprogressbar --quiet {{ item }}
+    - name: Install AUR packages 
+      kewlfft.aur.aur:
+        name: "{{ item }}"
+        state: present
       loop: "{{ packages }}"
       register: package_install
-      become: yes
-      become_method: sudo
-      changed_when: "'there is nothing to do' not in package_install.stdout"
-      failed_when: package_install is failed and 'nothing to do' not in package_install.stdout
-      no_log: true
 
     - name: Backup existing dotfiles
       shell: |
