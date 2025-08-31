@@ -84,6 +84,7 @@ packages:
   - noto-fonts-cjk
   - fastfetch
   - spicetify-marketplace-bin
+  - cups-pdf
 
 dotfiles:
   - .zshrc
