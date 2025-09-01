@@ -85,6 +85,7 @@ packages:
   - fastfetch
   - spicetify-marketplace-bin
   - cups-pdf
+  - playerctl
 
 dotfiles:
   - .zshrc
