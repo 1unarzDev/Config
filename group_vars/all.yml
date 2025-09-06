@@ -113,6 +113,7 @@ dotfiles:
   - .config/systemd/
   - .config/wal/
   - .config/qt6ct/
+  - .config/swappy/
   - .zen/Zen/
 
 secrets:
