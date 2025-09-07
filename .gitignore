@@ -2,3 +2,6 @@
 .vault
 .vscode
 device.conf
+monitors.conf
+files/cursors/hicolor/
+files/cursors/locolor/

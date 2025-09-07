@@ -14,30 +14,30 @@ vim.g.mapleader = " "
 map('n', '<CR>', 'm`o<Esc>``')
 map('n', '<S-CR>', 'm`O<Esc>``')
 
+-- Lines
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.signcolumn = "yes"
+
+-- Tabs
+vim.opt.tabstop = 2 -- Number of spaces a tab character represents
+vim.opt.shiftwidth = 2 -- Number of spaces to use for autoindentation
+vim.opt.expandtab = true -- Convert tabs to spaces
+
+map("n", "<Tab>", ">>",  opts)
+map("n", "<S-Tab>", "<<",  opts)
+map("v", "<Tab>", ">gv", opts)
+map("v", "<S-Tab>", "<gv", opts)
+map("i", "<Tab>", "<C-t>", opts)
+map("i", "<S-Tab>", "<C-d>", opts)
+
+-- Panel Movement
+map("n", "<C-h>", "<C-w>h") -- (Left)
+map("n", "<C-j>", "<C-w>j") -- (Up)
+map("n", "<C-k>", "<C-w>k") -- (Down)
+map("n", "<C-l>", "<C-w>l") -- (Right)
+
 if not vim.g.vscode then
-  -- Lines
-  vim.opt.number = true
-  vim.opt.relativenumber = true
-  vim.opt.signcolumn = "yes"
-
-  -- Tabs
-  vim.opt.tabstop = 2 -- Number of spaces a tab character represents
-  vim.opt.shiftwidth = 2 -- Number of spaces to use for autoindentation
-  vim.opt.expandtab = true -- Convert tabs to spaces
-
-  map("n", "<Tab>", ">>",  opts)
-  map("n", "<S-Tab>", "<<",  opts)
-  map("v", "<Tab>", ">gv", opts)
-  map("v", "<S-Tab>", "<gv", opts)
-  map("i", "<Tab>", "<C-t>", opts)
-  map("i", "<S-Tab>", "<C-d>", opts)
-
-  -- Panel Movement
-  map("n", "<C-h>", "<C-w>h") -- (Left)
-  map("n", "<C-j>", "<C-w>j") -- (Up)
-  map("n", "<C-k>", "<C-w>k") -- (Down)
-  map("n", "<C-l>", "<C-w>l") -- (Right)
-
   -- Fuzzy finder
   local builtin = require("telescope.builtin")
   map("n", "<leader>ff", builtin.find_files, { desc = "Telescope Find Files" })

@@ -1,76 +1,80 @@
-return {
-  "HakonHarnes/img-clip.nvim",
-  event = "VeryLazy",
-  opts = {
-    default = {
-      dir_path = "Assets",
-      use_absolute_path = false,
-      relative_to_current_file = true,
+if vim.g.vscode then
+  return {}
+else
+  return {
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
+    opts = {
+      default = {
+        dir_path = "Assets",
+        use_absolute_path = false,
+        relative_to_current_file = true,
 
-      prompt_for_file_name = false,
-      file_name = "%Y-%m-%d-at-%H-%M-%S",
+        prompt_for_file_name = false,
+        file_name = "%Y-%m-%d-at-%H-%M-%S",
 
-      -- extension = "avif", ---@type string
-      -- process_cmd = "convert - -quality 75 avif:-", ---@type string
+        -- extension = "avif", ---@type string
+        -- process_cmd = "convert - -quality 75 avif:-", ---@type string
 
-      -- extension = "webp", ---@type string
-      -- process_cmd = "convert - -quality 75 webp:-", ---@type string
+        -- extension = "webp", ---@type string
+        -- process_cmd = "convert - -quality 75 webp:-", ---@type string
 
-      -- extension = "png", ---@type string
-      -- process_cmd = "convert - -quality 75 png:-", ---@type string
+        -- extension = "png", ---@type string
+        -- process_cmd = "convert - -quality 75 png:-", ---@type string
 
-      -- extension = "jpg", ---@type string
-      -- process_cmd = "convert - -quality 75 jpg:-", ---@type string
+        -- extension = "jpg", ---@type string
+        -- process_cmd = "convert - -quality 75 jpg:-", ---@type string
 
-      -- -- Here are other conversion options to play around
-      -- -- Notice that with this other option you resize all the images
-      -- process_cmd = "convert - -quality 75 -resize 50% png:-", ---@type string
+        -- -- Here are other conversion options to play around
+        -- -- Notice that with this other option you resize all the images
+        -- process_cmd = "convert - -quality 75 -resize 50% png:-", ---@type string
 
-      -- -- Other parameters I found in stackoverflow
-      -- -- https://stackoverflow.com/a/27269260
-      -- --
-      -- -- -depth value
-      -- -- Color depth is the number of bits per channel for each pixel. For
-      -- -- example, for a depth of 16 using RGB, each channel of Red, Green, and
-      -- -- Blue can range from 0 to 2^16-1 (65535). Use this option to specify
-      -- -- the depth of raw images formats whose depth is unknown such as GRAY,
-      -- -- RGB, or CMYK, or to change the depth of any image after it has been read.
-      -- --
-      -- -- compression-filter (filter-type)
-      -- -- compression level, which is 0 (worst but fastest compression) to 9 (best but slowest)
-      -- process_cmd = "convert - -depth 24 -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 png:-",
-      --
-      -- -- These are for jpegs
-      -- process_cmd = "convert - -sampling-factor 4:2:0 -strip -interlace JPEG -colorspace RGB -quality 75 jpg:-",
-      -- process_cmd = "convert - -strip -interlace Plane -gaussian-blur 0.05 -quality 75 jpg:-",
-      --
-    },
-
-    -- filetype specific options
-    filetypes = {
-      markdown = {
-        -- encode spaces and special characters in file path
-        url_encode_path = true, ---@type boolean
-
-        -- -- The template is what specifies how the alternative text and path
-        -- -- of the image will appear in your file
+        -- -- Other parameters I found in stackoverflow
+        -- -- https://stackoverflow.com/a/27269260
+        -- --
+        -- -- -depth value
+        -- -- Color depth is the number of bits per channel for each pixel. For
+        -- -- example, for a depth of 16 using RGB, each channel of Red, Green, and
+        -- -- Blue can range from 0 to 2^16-1 (65535). Use this option to specify
+        -- -- the depth of raw images formats whose depth is unknown such as GRAY,
+        -- -- RGB, or CMYK, or to change the depth of any image after it has been read.
+        -- --
+        -- -- compression-filter (filter-type)
+        -- -- compression level, which is 0 (worst but fastest compression) to 9 (best but slowest)
+        -- process_cmd = "convert - -depth 24 -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 png:-",
         --
-        -- -- $CURSOR will paste the image and place your cursor in that part so
-        -- -- you can type the "alternative text", keep in mind that this will
-        -- -- not affect the name that the image physically has
-        -- template = "![$CURSOR]($FILE_PATH)", ---@type string
+        -- -- These are for jpegs
+        -- process_cmd = "convert - -sampling-factor 4:2:0 -strip -interlace JPEG -colorspace RGB -quality 75 jpg:-",
+        -- process_cmd = "convert - -strip -interlace Plane -gaussian-blur 0.05 -quality 75 jpg:-",
         --
-        -- -- This will just statically type "Image" in the alternative text
-        -- template = "![Image]($FILE_PATH)", ---@type string
-        --
-        -- -- This will dynamically configure the alternative text to show the
-        -- -- same that you configured as the "file_name" above
-        template = "![$FILE_NAME]($FILE_PATH)", ---@type string
+      },
+
+      -- filetype specific options
+      filetypes = {
+        markdown = {
+          -- encode spaces and special characters in file path
+          url_encode_path = true, ---@type boolean
+
+          -- -- The template is what specifies how the alternative text and path
+          -- -- of the image will appear in your file
+          --
+          -- -- $CURSOR will paste the image and place your cursor in that part so
+          -- -- you can type the "alternative text", keep in mind that this will
+          -- -- not affect the name that the image physically has
+          -- template = "![$CURSOR]($FILE_PATH)", ---@type string
+          --
+          -- -- This will just statically type "Image" in the alternative text
+          -- template = "![Image]($FILE_PATH)", ---@type string
+          --
+          -- -- This will dynamically configure the alternative text to show the
+          -- -- same that you configured as the "file_name" above
+          template = "![$FILE_NAME]($FILE_PATH)", ---@type string
+        },
       },
     },
-  },
-  keys = {
-    -- suggested keymap
-    { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
-  },
-}
+    keys = {
+      -- suggested keymap
+      { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+    },
+  }
+end

@@ -1,0 +1,1 @@
+- Need to install Ansible and Git installed before running playbook.

@@ -75,7 +75,6 @@ packages:
   - pilorama-git
   - tty-clock
   - docker
-  - morgen-bin
   - nwg-displays
   - udisks2
   - udiskie
@@ -86,6 +85,7 @@ packages:
   - spicetify-marketplace-bin
   - cups-pdf
   - playerctl
+  - termius
 
 dotfiles:
   - .zshrc
