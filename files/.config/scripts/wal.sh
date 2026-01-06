@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 LOCK_FILE="$HOME/.cache/wallpaper_change.lock"
 WALLPAPER_DIR="$HOME/.config/swww/wallpapers"
 STATE_FILE="$HOME/.cache/current_wallpaper"
@@ -16,6 +16,9 @@ PYWAL_CAVA="$HOME/.cache/wal/colors-cava"
 CAVA_DIR="$HOME/.config/cava"
 OBSIDIAN_SCRIPT="$HOME/.config/scripts/obsidian.sh"
 VAULT_DIR="$HOME/Vaults/SecondBrain"
+FCITX5_TEMPLATE_DIR="$HOME/.local/share/fcitx5/themes/pywal-template"
+FCITX5_THEME_DIR="$HOME/.local/share/fcitx5/themes/pywal"
+FCITX5_SCRIPT="$HOME/.config/scripts/fcitx5.sh"
 
 # Function to cleanup on exit
 cleanup() {
@@ -81,7 +84,7 @@ x=$(echo "$x * $scale" | bc | cut -d'.' -f1)
 y=$(echo "$y * $scale" | bc | cut -d'.' -f1)
 
 cursor="$x,$y"
-for output in $(swww query | cut -d: -f1); do
+for output in $(swww query | awk -F': ' '{print $2}'); do
     swww img $image --transition-type grow --transition-pos $cursor --invert-y --transition-step 3 --transition-fps $FPS --transition-duration 2 --outputs $output
 done
 sleep 1.1
@@ -146,6 +149,13 @@ pkill -USR1 cava
 
 # Obsidian
 bash $OBSIDIAN_SCRIPT $VAULT_DIR
+
+# Keyboard
+mkdir -p "$FCITX5_THEME_DIR"
+
+bash $FCITX5_SCRIPT "$FCITX5_TEMPLATE_DIR/theme.conf.template" "$FCITX5_THEME_DIR/theme.conf"
+bash $FCITX5_SCRIPT "$FCITX5_TEMPLATE_DIR/highlight.svg.template" "$FCITX5_THEME_DIR/highlight.svg"
+bash $FCITX5_SCRIPT "$FCITX5_TEMPLATE_DIR/panel.svg.template" "$FCITX5_THEME_DIR/panel.svg"
 
 # Update spicetify colors
 tmpfile=$(mktemp)

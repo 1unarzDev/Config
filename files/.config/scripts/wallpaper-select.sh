@@ -26,7 +26,7 @@ adjusted_icon_size=$(echo "$icon_size" | awk '{if ($1 < 15) $1 = 20; if ($1 > 25
 rofi_override="element-icon{size:${adjusted_icon_size}%;}"
 
 # Retrieve wallpapers (both images & videos)
-mapfile -d '' PICS < <(find -L "${WALLPAPER_DIR}" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -print0)
+mapfile -d '' PICS < <(find -L "${WALLPAPER_DIR}" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
 
 create_thumbnail() {
     local source_image="$1"
@@ -36,8 +36,14 @@ create_thumbnail() {
     if [[ -f "$thumbnail_path" && "$thumbnail_path" -nt "$source_image" ]]; then
         return 0
     fi
+
+    # Only use the first frame of a gif
+    local input_image="$source_image"
+    if [[ "$source_image" =~ \.gif$ ]]; then
+        input_image="${source_image}[0]"
+    fi
     
-    magick "$source_image" \
+    magick "$input_image" \
         -resize 600x400^ \
         -gravity center \
         -extent 600x400 \

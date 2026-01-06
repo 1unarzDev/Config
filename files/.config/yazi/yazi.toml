@@ -10,3 +10,10 @@ edit = [
 pdf = [
   { mime = "application/pdf", use = [ "pdf", "reveal" ] },
 ]
+
+[mgr]
+keymap = [
+  { on = [ "<C-n>" ], run = '''
+      shell 'ripdrag "$@" -x 2>/dev/null &' --confirm
+  ''' },
+]

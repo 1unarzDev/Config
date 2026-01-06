@@ -20,6 +20,7 @@
     context                   # user@host
     dir                       # current directory
     vcs                       # git status
+    anaconda
     command_execution_time    # previous command duration
     # =========================[ Line #2 ]=========================
     newline                   # \n
@@ -61,6 +62,8 @@
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='❮'
   # Prompt symbol in overwrite vi mode is the same as in command mode.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OVERWRITE_STATE=false
+
+  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=3
 
   # Grey Python Virtual Environment.
   typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=8

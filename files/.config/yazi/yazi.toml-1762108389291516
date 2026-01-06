@@ -1,0 +1,19 @@
+[opener]
+pdf = [
+	{ run = 'zathura "$@"', desc = "zathura", block = false, for = "unix" },
+]
+edit = [
+  { run = 'nvim "$@"', block = true },
+]
+
+[open]
+pdf = [
+  { mime = "application/pdf", use = [ "pdf", "reveal" ] },
+]
+
+[manager]
+keymap = [
+  { on = [ "<C-n>" ], run = '''
+      shell 'dragon -x -i -T "$1"' --confirm
+  ''' }
+]

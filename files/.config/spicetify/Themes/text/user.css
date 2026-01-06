@@ -985,3 +985,15 @@ button:has(
 .main-nowPlayingView-section * {
   border-radius: 12px !important;
 }
+
+.x-entityImage-imageContainer, .main-card-imageContainer > div:first-child {
+    background-color: transparent !important;
+}
+
+.main-avatar-avatar {
+    background-color: transparent !important;
+}
+
+.main-cardImage-imageWrapper {
+    background-color: transparent !important;
+}

@@ -25,14 +25,27 @@ packages:
   - btop
   - cava
   - cliphist
+  - cloudflared
+  - cloudflare-warp-bin
+  - cura-bin
   - cmatrix
+  - dhclient
+  - hostname
+  - inetutils
   - docker
+  - docker-compose
+  - docker-buildx
+  - dragon-drop
+  - ethtool
+  - f3d
+  - hplip
   - grim
   - hypridle
   - hyprpicker
   - hyprlock
   - mako
   - mpris-scrobbler
+  - mpv
   - networkmanager
   - nvm
   - pipewire
@@ -51,6 +64,8 @@ packages:
   - zoxide 
   - resvg 
   - imagemagick
+  - jdk
+  - jdk17-openjdk
   - python-pywal16
   - python-pywalfox
   - swayosd
@@ -71,6 +86,9 @@ packages:
   - rofi-emoji
   - obsidian
   - zathura
+  - zathura-djvu
+  - zathura-pdf-poppler
+  - zathura-ps
   - beeper-v4-bin
   - pilorama-git
   - tty-clock
@@ -86,6 +104,19 @@ packages:
   - cups-pdf
   - playerctl
   - termius
+  - less
+  - wol-systemd
+  - qemu-full
+  - libvirt
+  - virt-manager
+  - remmina
+  - ripdrag
+  - unityhub
+  - usbutils
+  - ripgrep
+  - blender-bin
+  - wireshark
+  - gnu-netcat
 
 dotfiles:
   - .zshrc
@@ -114,7 +145,9 @@ dotfiles:
   - .config/wal/
   - .config/qt6ct/
   - .config/swappy/
+  - .config/mpv/
   - .zen/Zen/
+  - .themes/
 
 secrets:
   - .gitconfig
@@ -128,6 +161,10 @@ system_services:
   - auto-cpufreq
   - docker
   - systemd-timesyncd
+  - containerd
+  - cups
+  - udisks2
+  - warp-svc
   
 user_services:
   - mpris-proxy

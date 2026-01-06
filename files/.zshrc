@@ -34,6 +34,11 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 
+# Vi-mode modification
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+ZVM_CLIPBOARD_COPY_CMD='wl-copy -n'
+ZVM_CLIPBOARD_PASTE_CMD='wl-paste -n'
+
 # Initialize completions
 autoload -U compinit && compinit
 
@@ -117,3 +122,66 @@ export TERM=xterm
 check_terminal_size
 
 source ~/.profile
+
+# Mamba
+if [[ ! -f "$HOME/.local/bin/micromamba" ]]; then
+    echo "Micromamba not found. Installing automatically..."
+    "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+fi
+
+export MAMBA_EXE="$HOME/.local/bin/micromamba";
+export MAMBA_ROOT_PREFIX="$HOME/micromamba";
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
+fi
+unset __mamba_setup
+
+alias mamba='micromamba'
+
+alias zinit_update="zinit self-update && zinit update --all"
+
+alias device_access="sudo chmod a+w+r /dev/hidraw*"
+
+export WINEDEBUG=-all
+
+export PATH=$PATH:$HOME/ardupilot/Tools/autotest
+export PATH=/usr/lib/ccache:$PATH
+export PATH=$PATH:$HOME/ardupilot-gcc/bin
+
+# lazy_conda_aliases=('conda')
+# 
+# load_conda() {
+#   for lazy_conda_alias in $lazy_conda_aliases
+#   do
+#     unalias $lazy_conda_alias
+#   done
+# 
+#   __conda_prefix="$HOME/miniconda3" # Set your conda Location
+# 
+#   # >>> conda initialize >>>
+#   __conda_setup="$("$__conda_prefix/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+#   if [ $? -eq 0 ]; then
+#       eval "$__conda_setup"
+#   else
+#       if [ -f "$__conda_prefix/etc/profile.d/conda.sh" ]; then
+#           . "$__conda_prefix/etc/profile.d/conda.sh"
+#       else
+#           export PATH="$__conda_prefix/bin:$PATH"
+#       fi
+#   fi
+#   unset __conda_setup
+#   # <<< conda initialize <<<
+# 
+#   unset __conda_prefix
+#   unfunction load_conda
+# }
+# 
+# for lazy_conda_alias in $lazy_conda_aliases
+# do
+#   alias $lazy_conda_alias="load_conda && $lazy_conda_alias"
+# done
+# 
+# export PATH="$HOME/miniconda3/bin:$PATH"

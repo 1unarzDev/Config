@@ -31,13 +31,13 @@ map("v", "<S-Tab>", "<gv", opts)
 map("i", "<Tab>", "<C-t>", opts)
 map("i", "<S-Tab>", "<C-d>", opts)
 
--- Panel Movement
-map("n", "<C-h>", "<C-w>h") -- (Left)
-map("n", "<C-j>", "<C-w>j") -- (Up)
-map("n", "<C-k>", "<C-w>k") -- (Down)
-map("n", "<C-l>", "<C-w>l") -- (Right)
-
 if not vim.g.vscode then
+  -- Panel Movement
+  map("n", "<C-h>", "<C-w>h") -- (Left)
+  map("n", "<C-j>", "<C-w>j") -- (Up)
+  map("n", "<C-k>", "<C-w>k") -- (Down)
+  map("n", "<C-l>", "<C-w>l") -- (Right)
+
   -- Fuzzy finder
   local builtin = require("telescope.builtin")
   map("n", "<leader>ff", builtin.find_files, { desc = "Telescope Find Files" })
